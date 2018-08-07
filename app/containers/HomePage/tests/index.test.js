@@ -8,8 +8,8 @@ import { shallow, mount } from 'enzyme';
 import ReposList from 'components/ReposList';
 import HomePage from '../HomePage';
 import { mapDispatchToProps } from '../index';
-import { changeUsername } from '../actions';
-import { loadRepos } from '../../App/actions';
+import { changeUsername, loadRepos } from '../actions';
+// import { loadRepos } from '../../App/actions';
 
 describe('<HomePage />', () => {
   it('should render the repos list', () => {
