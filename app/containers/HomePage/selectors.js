@@ -48,7 +48,7 @@ const makeSelectLoadingNetworkError = () => createSelector(
   selectHome,
   (homeState) => homeState.get('loadingNetworkError')
 );
-
+ 
 const makeSelectNetwork = () => createSelector(
   selectHome,
   (homeState) => homeState.get('networkInfo')

@@ -29,7 +29,7 @@ const initialState = fromJS({
   username: '',
 
   loadingNetwork: false,
-  loadingNetworkError: '',
+  loadingNetworkError: null,
   networkInfo: null
 });
 
@@ -47,7 +47,7 @@ function homeReducer(state = initialState, action) {
     case LOAD_NETWORK_ERROR:
       return state
         .set('loadingNetwork', false)        
-        .set('loadingNetworkError', action.networkError);          
+        .set('loadingNetworkError', action.loadingNetworkError);          
     case LOAD_REPOS:
       return state
         .set('loading', true)

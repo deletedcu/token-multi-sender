@@ -32,7 +32,7 @@ const App = () => (
       <Route path="" component={NotFoundPage} />
     </Switch> */}
     <HomePage />
-    <Footer />
+    {/* <Footer /> */}
   </div>
 );
 

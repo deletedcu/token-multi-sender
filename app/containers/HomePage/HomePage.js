@@ -33,35 +33,39 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     };
     
     return (
-      <article>
-        <Helmet>
-          <title>Home Page</title>
-          <meta name="description" content="Token MultiSender" />
-        </Helmet>
-        <div className="home-page">
-          <section className="centered">
-            <h2>{`Token MultiSender ( ${web3Info && web3Info.netIdName}`} ) </h2>
-            <p>Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.  </p>
-          </section>
-          <section>
-            <h2>Try me!</h2>
-            <form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-              Show Github repositories by
-                <span className="at-prefix">@</span>
-                <input
-                  id="username"
-                  type="text"
-                  placeholder="flexdinesh"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </form>
-            <ReposList {...reposListProps} />
-          </section>
-        </div>
-      </article>
+      (! web3InfoLoading) && (
+        <article>
+          <Helmet>
+            <title>Token MultiSender</title>
+            <meta name="description" content="Token MultiSender" />
+          </Helmet>
+          
+          <div className="home-page">
+            <section className="centered">
+              <h2>{`Token MultiSender ( ${web3Info ? web3Info.netIdName: 'Error'}`} ) </h2>
+              <p>Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.  </p>
+              {(web3InfoLoadingError) && (<p>{web3InfoLoadingError.message}</p>) }
+            </section>
+            {/* <section>
+              <h2>Try me!</h2>
+              <form onSubmit={this.props.onSubmitForm}>
+                <label htmlFor="username">
+                Show Github repositories by
+                  <span className="at-prefix">@</span>
+                  <input
+                    id="username"
+                    type="text"
+                    placeholder="flexdinesh"
+                    value={this.props.username}
+                    onChange={this.props.onChangeUsername}
+                  />
+                </label>
+              </form>
+              <ReposList {...reposListProps} />
+            </section> */}
+          </div>
+        </article>
+      )
     );
   }
 }
@@ -81,4 +85,6 @@ HomePage.propTypes = {
   onChangeUsername: PropTypes.func,
   onNetworkLoad: PropTypes.func,
   web3Info: PropTypes.object,
+  web3InfoLoading : PropTypes.bool,
+  web3InfoLoadingError: PropTypes.object,
 };
