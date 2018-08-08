@@ -10,8 +10,10 @@ import { Helmet } from 'react-helmet';
 import ReposList from 'components/ReposList';
 
 import TargetAddressesTable from '../../components/TargetAddressesTable';
-
+import TokenSelect from '../../components/TokenSelect';
 import './style.scss';
+
+import targetAddressList from '../../../target_addresses.json';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -23,6 +25,11 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     }
     this.props.onNetworkLoad();
   }
+  
+  handleChangeToken = select_state => {
+    console.log('select:', select_state);
+    //this.setState({ [event.target.name]: event.target.value });
+  };
 
   render() {
     const { 
@@ -34,7 +41,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
       error,
       repos,
     };
-    
+    const targetAddressProps = {targetAddressList}
     return (
       (! web3InfoLoading) && (
         <article>
@@ -47,10 +54,12 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
             <section className="centered">
               <h2>{`Token MultiSender ( ${web3Info ? web3Info.netIdName: 'Error'})`} </h2>
               <h2>{`Current Account  ${web3Info ? web3Info.defaultAccount: 'Error'}`} </h2>
-              <p><h3> Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.</h3></p>
+              <h3><p> Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.</p></h3>
               {(web3InfoLoadingError) && (<p>{web3InfoLoadingError.message}</p>) }
+              
             </section>
-            <TargetAddressesTable />
+            {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}
+            <TargetAddressesTable {...targetAddressProps}/>
             {/* <section>
               <h2>Try me!</h2>
               <form onSubmit={this.props.onSubmitForm}>

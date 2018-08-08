@@ -127,10 +127,55 @@ function loadNetworkPromise() {
     })
   })
 }
+
+/**
+ *  Finalize the web3 info for usage.
+ */
+function finalizeWeb3InfoPromise(web3Config) {
+  return new Promise(function (resolve, reject) {
+    //this.getUserTokens(web3Config)
+    let finalWeb3Info = {
+      web3: null,
+      defaultAccount: null,
+      userTokens: null,
+      netIdName: null,
+    }
+    const {web3Instance, defaultAccount, trustApiName, netIdName } = web3Config;
+    window.fetch(`https://${trustApiName}.trustwalletapp.com/tokens?address=${defaultAccount}`).then((res) => {
+      return res.json()
+    }).then((res) => {
+      let tokens = res.docs.map(({contract}) => {
+        const {address, symbol} = contract;
+        return {label: `${symbol} - ${address}`, value: address}
+      })
+      tokens.unshift({
+        value: '0x000000000000000000000000000000000000bEEF',
+        label: "ETH - Ethereum Native Currency"
+      })
+      console.log('web3 info finalized')
+      // this.loading = false;
+      finalWeb3Info.userTokens = tokens;
+      finalWeb3Info.defaultAccount = defaultAccount;
+      finalWeb3Info.web3 = new Web3(web3Instance.currentProvider); 
+      finalWeb3Info.netIdName = netIdName;   
+      resolve(finalWeb3Info);    
+    }).catch((e) => {
+      // this.loading = false;
+      console.error(e);
+      reject({message: e})
+    })
+  })
+
+}
+
+/**
+ *  This is the saga called when HomePage container mounted. 
+ */
 export function* loadNetwork() {
   try {
     const web3Info = yield call(loadNetworkPromise);
-    yield put(networkLoaded(web3Info));
+    const finalWeb3Info = yield call(finalizeWeb3InfoPromise, web3Info);
+    yield put(networkLoaded(finalWeb3Info));
   } catch (err) {
     yield put(networkLoadingError(err));
   }
