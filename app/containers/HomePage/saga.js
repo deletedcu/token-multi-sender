@@ -1,7 +1,7 @@
 /**
  * Gets the repositories of the user from Github
  */
-// import Web3 from 'web3'
+import Web3 from 'web3'
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { 
   LOAD_REPOS, 
