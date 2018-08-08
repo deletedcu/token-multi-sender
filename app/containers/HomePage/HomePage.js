@@ -8,6 +8,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import ReposList from 'components/ReposList';
+
+import TargetAddressesTable from '../../components/TargetAddressesTable';
+
 import './style.scss';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -42,10 +45,12 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
           
           <div className="home-page">
             <section className="centered">
-              <h2>{`Token MultiSender ( ${web3Info ? web3Info.netIdName: 'Error'}`} ) </h2>
-              <p>Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.  </p>
+              <h2>{`Token MultiSender ( ${web3Info ? web3Info.netIdName: 'Error'})`} </h2>
+              <h2>{`Current Account  ${web3Info ? web3Info.defaultAccount: 'Error'}`} </h2>
+              <p><h3> Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.</h3></p>
               {(web3InfoLoadingError) && (<p>{web3InfoLoadingError.message}</p>) }
             </section>
+            <TargetAddressesTable />
             {/* <section>
               <h2>Try me!</h2>
               <form onSubmit={this.props.onSubmitForm}>

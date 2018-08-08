@@ -41,7 +41,7 @@ const mapStateToProps = createStructuredSelector({
   web3Info: makeSelectNetwork(),
   web3InfoLoading: makeSelectNetworkLoading(),
   web3InfoLoadingError: makeSelectLoadingNetworkError(),
-
+  
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
   loading: makeSelectLoading(),

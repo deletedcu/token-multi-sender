@@ -30,6 +30,7 @@
     "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
   "dependencies": {
+    "@material-ui/core": "^1.4.3",
     "babel-polyfill": "6.26.0",
     "bignumber.js": "^7.2.1",
     "chalk": "^2.3.2",
