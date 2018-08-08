@@ -24,6 +24,10 @@ import {
   LOAD_NETWORK,
   LOAD_NETWORK_SUCCESS,
   LOAD_NETWORK_ERROR,
+
+  LOAD_GASPRICE,
+  LOAD_GASPRICE_SUCCESS,
+  LOAD_GASPRICE_ERROR
 } from './constants';
 
 /**
@@ -82,7 +86,7 @@ export function repoLoadingError(error) {
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   INIT NETWORK LOAD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
- * Load the repositories, this action starts the request saga
+ * Load the blockchain provider network, this action starts the request saga
  *
  * @return {object} An action object with a type of LOAD_NETWORK
  */
@@ -117,5 +121,45 @@ export function networkLoadingError(loadingNetworkError) {
   return {
     type: LOAD_NETWORK_ERROR,
     loadingNetworkError,
+  };
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   GAS PRICE LOAD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load the Gas price, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_GASPRICE
+ */
+export function loadGasPrice() {
+  return {
+    type: LOAD_GASPRICE,
+  };
+}
+
+/**
+ * Dispatched when the gas price was obtained successfully
+ *
+ * @param  {object} gasPrice The blockchain network data
+ *
+ * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
+ */
+export function gasPriceLoaded(gasPrice) {
+  return {
+    type: LOAD_GASPRICE_SUCCESS,
+    gasPrice,
+  };
+}
+
+/**
+ * Dispatched when loading the repositories fails
+ *
+ * @param  {object} loadingGaspriceError The error
+ *
+ * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
+ */
+export function gasPriceLoadingError(loadingGaspriceError) {
+  return {
+    type: LOAD_GASPRICE_ERROR,
+    loadingGaspriceError,
   };
 }

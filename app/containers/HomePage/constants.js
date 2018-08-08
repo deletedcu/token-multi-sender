@@ -13,6 +13,10 @@ export const LOAD_NETWORK = 'app/Header/LOAD_NETWORK';
 export const LOAD_NETWORK_SUCCESS = 'app/Header/LOAD_NETWORK_SUCCESS';
 export const LOAD_NETWORK_ERROR = 'app/Header/LOAD_NETWORK_ERROR';
 
+export const LOAD_GASPRICE = 'app/Header/GASPRICE';
+export const LOAD_GASPRICE_SUCCESS = 'app/Header/GASPRICE_SUCCESS';
+export const LOAD_GASPRICE_ERROR = 'app/Header/GASPRICE_ERROR';
+
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
 export const LOAD_REPOS = 'boilerplate/Home/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/Home/LOAD_REPOS_SUCCESS';

@@ -20,7 +20,10 @@ import {
   LOAD_NETWORK,
   LOAD_NETWORK_SUCCESS,
   LOAD_NETWORK_ERROR,
-  
+
+  LOAD_GASPRICE,
+  LOAD_GASPRICE_SUCCESS,
+  LOAD_GASPRICE_ERROR  
  } from './constants';
 import { fail } from 'assert';
 
@@ -30,11 +33,30 @@ const initialState = fromJS({
 
   loadingNetwork: false,
   loadingNetworkError: null,
-  networkInfo: null
+  networkInfo: null,
+
+  loadingGasPrice: null,
+  loadingGaspriceError: null,
+  gasPrice: null,
+
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_GASPRICE:
+    return state
+      .set('loadingGasPrice', true)
+      .set('loadingGaspriceError', null);
+    case LOAD_GASPRICE_SUCCESS:
+      return state
+        .set('loadingGasPrice', false)
+        .set('networkInfo', action.gasPrice)
+        .set('loadingGaspriceError', null); 
+    case LOAD_GASPRICE_ERROR:
+      return state
+        .set('loadingGasPrice', false)        
+        .set('loadingGaspriceError', action.loadingGaspriceError);          
+
     case LOAD_NETWORK:
       return state
         .set('loadingNetwork', true)
