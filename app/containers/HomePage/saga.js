@@ -1,13 +1,25 @@
 /**
  * Gets the repositories of the user from Github
  */
-
+// import Web3 from 'web3'
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from './constants';
-import { reposLoaded, repoLoadingError } from './actions';
+import { 
+  LOAD_REPOS, 
+  LOAD_NETWORK,
+  LOAD_NETWORK_SUCCESS,
+  LOAD_NETWORK_ERROR,
+} from './constants';
+import { 
+  reposLoaded,
+  repoLoadingError,
+
+  networkLoaded,
+  networkLoadingError,
+ } from './actions';
 
 import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
+import { makeSelectUsername } from './selectors';
+
 
 /**
  * Github repos request/response handler
@@ -26,6 +38,18 @@ export function* getRepos() {
   }
 }
 
+/**
+ * Load Blockchain Network
+ */
+export function* loadNetwork() {
+  try {
+
+
+
+  } catch (err) {
+    yield put(networkLoadingError(err));
+  }
+}
 /**
  * Root saga manages watcher lifecycle
  */

@@ -16,15 +16,38 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
+
+  LOAD_NETWORK,
+  LOAD_NETWORK_SUCCESS,
+  LOAD_NETWORK_ERROR,
+  
  } from './constants';
+import { fail } from 'assert';
 
 // The initial state of the App
 const initialState = fromJS({
-  username: ''
+  username: '',
+
+  loadingNetwork: false,
+  loadingNetworkError: '',
+  networkInfo: null
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_NETWORK:
+      return state
+        .set('loadingNetwork', true)
+        .set('loadingNetworkError', null);
+    case LOAD_NETWORK_SUCCESS:
+      return state
+        .set('loadingNetwork', false)
+        .set('networkInfo', action.networkInfo)
+        .set('loadingNetworkError', null); 
+    case LOAD_NETWORK_ERROR:
+      return state
+        .set('loadingNetwork', false)        
+        .set('loadingNetworkError', action.networkError);          
     case LOAD_REPOS:
       return state
         .set('loading', true)

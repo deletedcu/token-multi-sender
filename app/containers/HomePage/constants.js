@@ -9,9 +9,11 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const LOAD_NETWORK = 'app/Header/LOAD_NETWORK';
+export const LOAD_NETWORK_SUCCESS = 'app/Header/LOAD_NETWORK_SUCCESS';
+export const LOAD_NETWORK_ERROR = 'app/Header/LOAD_NETWORK_ERROR';
+
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
-
-
 export const LOAD_REPOS = 'boilerplate/Home/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/Home/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/Home/LOAD_REPOS_ERROR';

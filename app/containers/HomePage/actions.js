@@ -20,6 +20,10 @@ import {
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
+
+  LOAD_NETWORK,
+  LOAD_NETWORK_SUCCESS,
+  LOAD_NETWORK_ERROR,
 } from './constants';
 
 /**
@@ -74,5 +78,44 @@ export function repoLoadingError(error) {
   return {
     type: LOAD_REPOS_ERROR,
     error,
+  };
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   INIT NETWORK LOAD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load the repositories, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_NETWORK
+ */
+export function loadNetwork() {
+  return {
+    type: LOAD_NETWORK,
+  };
+}
+
+/**
+ * Dispatched when the web3 detected blockchain network
+ *
+ * @param  {object} networkInfo The blockchain network data
+ *
+ * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
+ */
+export function networkLoaded(networkInfo) {
+  return {
+    type: LOAD_NETWORK_SUCCESS,
+    networkInfo,
+  };
+}
+
+/**
+ * Dispatched when loading the repositories fails
+ *
+ * @param  {object} loadingNetworkError The error
+ *
+ * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
+ */
+export function networkLoadingError(loadingNetworkError) {
+  return {
+    type: LOAD_NETWORK_ERROR,
+    loadingNetworkError,
   };
 }

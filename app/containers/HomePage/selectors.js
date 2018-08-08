@@ -5,25 +5,30 @@
 import { createSelector } from 'reselect';
 
 const selectHome = (state) => state.get('home');
+/**
+ *   loadingNetwork: false,
+  loadingNetworkError: '',
+  networkInfo: null
+ */
 
 const makeSelectCurrentUser = () => createSelector(
   selectHome,
-  (globalState) => globalState.get('currentUser')
+  (homeState) => homeState.get('currentUser')
 );
 
 const makeSelectLoading = () => createSelector(
   selectHome,
-  (globalState) => globalState.get('loading')
+  (homeState) => homeState.get('loading')
 );
 
 const makeSelectError = () => createSelector(
   selectHome,
-  (globalState) => globalState.get('error')
+  (homeState) => homeState.get('error')
 );
 
 const makeSelectRepos = () => createSelector(
   selectHome,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
+  (homeState) => homeState.getIn(['userData', 'repositories'])
 );
 
 
@@ -32,6 +37,24 @@ const makeSelectUsername = () => createSelector(
   (homeState) => homeState.get('username')
 );
 
+///////// Network Load ///////
+
+const makeSelectNetworkLoading = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingNetwork')
+);
+
+const makeSelectLoadingNetworkError = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingNetworkError')
+);
+
+const makeSelectNetwork = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('networkInfo')
+);
+
+
 export {
   selectHome,
   makeSelectUsername,
@@ -39,4 +62,8 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectRepos,
+  
+  makeSelectNetworkLoading,
+  makeSelectLoadingNetworkError,
+  makeSelectNetwork
 };
