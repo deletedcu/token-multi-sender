@@ -18,26 +18,30 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
+    this.props.onNetworkLoad();
   }
 
   render() {
-    const { loading, error, repos } = this.props;
+    const { 
+      loading, error, repos,
+      web3InfoLoading, web3InfoLoadingError, web3Info, 
+    } = this.props;
     const reposListProps = {
       loading,
       error,
       repos,
     };
-
+    
     return (
       <article>
         <Helmet>
           <title>Home Page</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
+          <meta name="description" content="Token MultiSender" />
         </Helmet>
         <div className="home-page">
           <section className="centered">
-            <h2>Start your next react project in seconds</h2>
-            <p>A minimal <i>React-Redux</i> boilerplate with all the best practices</p>
+            <h2>{`Token MultiSender ( ${web3Info && web3Info.netIdName}`} ) </h2>
+            <p>Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.  </p>
           </section>
           <section>
             <h2>Try me!</h2>
@@ -75,4 +79,6 @@ HomePage.propTypes = {
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
   onChangeUsername: PropTypes.func,
+  onNetworkLoad: PropTypes.func,
+  web3Info: PropTypes.object,
 };

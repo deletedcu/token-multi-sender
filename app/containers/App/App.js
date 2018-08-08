@@ -19,7 +19,7 @@ import './style.scss';
 
 const App = () => (
   <div className="app-wrapper">
-    <Helmet
+    {/* <Helmet
       titleTemplate="%s - React.js Boilerplate"
       defaultTitle="React.js Boilerplate"
     >
@@ -30,7 +30,8 @@ const App = () => (
       <Route exact path="/" component={HomePage} />
       <Route path="/features" component={FeaturePage} />
       <Route path="" component={NotFoundPage} />
-    </Switch>
+    </Switch> */}
+    <HomePage />
     <Footer />
   </div>
 );

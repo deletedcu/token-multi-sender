@@ -9,12 +9,17 @@ import injectSaga from 'utils/injectSaga';
 //   makeSelectError
 // } from 'containers/App/selectors';
 // import { loadRepos } from '../App/actions';
-import { changeUsername, loadRepos } from './actions';
+import { changeUsername, loadRepos, loadNetwork } from './actions';
 import { 
   makeSelectUsername,
   makeSelectRepos,
   makeSelectLoading,
-  makeSelectError
+  makeSelectError,
+  
+  makeSelectNetwork,
+  makeSelectNetworkLoading,
+  makeSelectLoadingNetworkError,
+
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,10 +30,18 @@ const mapDispatchToProps = (dispatch) => ({
   onSubmitForm: (evt) => {
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadRepos());
-  }
+  },
+  onNetworkLoad: (evt) => {
+    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    dispatch(loadNetwork());
+  },
 });
 
 const mapStateToProps = createStructuredSelector({
+  web3Info: makeSelectNetwork(),
+  web3InfoLoading: makeSelectNetworkLoading(),
+  web3InfoLoadingError: makeSelectLoadingNetworkError(),
+
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
   loading: makeSelectLoading(),
