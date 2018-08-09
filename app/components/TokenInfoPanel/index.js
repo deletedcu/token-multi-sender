@@ -24,9 +24,14 @@ function PaperSheet(props) {
         {tokenInfo && 
         (<Typography component="p">
           {
-            ` Decimals: ${tokenInfo.tokenDecimals} 
+            ` 
+              Token: ${tokenInfo.tokenSymbol}
+              Decimals: ${tokenInfo.tokenDecimals} 
               Balance: ${tokenInfo.defAccTokenBalance} 
               ETH: ${tokenInfo.defAccEthBalance}
+              Allowance: ${tokenInfo.allowance}
+              CurrentFee: ${tokenInfo.currentFee}
+              ArrayLimit: ${tokenInfo.arrayLimit}
           `}
         </Typography>)
         }

@@ -45,7 +45,7 @@ export function getBalancePromise(param) {
             token.methods.balanceOf(param.web3Info.defaultAccount).call().then(function (result) {
                 defAccTokenBalance = new BN(result).div(multiplier(param.decimals)).toString(10)
                 resolve(defAccTokenBalance);
-            });        
+            });   
             
         }
         catch(e){
@@ -69,6 +69,85 @@ export function getEthBalancePromise(param) {
           catch(e){
             const error = 'Eth balance error';
             console.error('getETHBalance',e);
+            reject({message: error});
+          }
+    })
+}
+
+export function getAllowancePromise(param) {
+    return new Promise(function (resolve, reject) {
+        try {
+            const web3 = param.web3Info.web3;
+            const address = param.address;
+            const token = new web3.eth.Contract(ERC20ABI, address);
+            let allowance;
+            token.methods.allowance(param.web3Info.defaultAccount, param.proxyMultiSenderAddress).call().then(function (result) {
+                allowance = new BN(result).div(multiplier(param.decimals)).toString(10)
+                resolve(allowance);
+            });        
+          }
+          catch(e){
+            const error= `Token address doesn't have allowance method.\n Please make sure you are on the right network and token address exists.\n
+               Your account: ${param.web3Info.defaultAccount}`;
+            console.error('GetAllowance',e);
+            reject({message: error});
+          }
+    })
+}
+
+export function getCurrentFeePromise(param){
+    return new Promise(function (resolve, reject) {
+        try {
+            const web3 = param.web3Info.web3;
+            const multisender = new web3.eth.Contract(StormMultiSenderABI, param.proxyMultiSenderAddress);
+            let currentFee;
+            multisender.methods.currentFee(param.web3Info.defaultAccount).call().then(function (result) {
+                currentFee = Web3Utils.fromWei(result)
+                resolve(currentFee);
+            });        
+        }
+        catch(e){
+            console.error('getCurrentFee',e);
+            const error = 'getCurrentFee Error';
+            reject({message: error});
+        }
+    })
+}
+
+export function getTokenSymbolPromise(param) {
+    return new Promise(function (resolve, reject) {
+        try {
+            const web3 = param.web3Info.web3;
+            const address = param.address;
+            const token = new web3.eth.Contract(ERC20ABI, address);
+            let tokenSymbol;
+            token.methods.symbol().call().then(function (result) {
+                tokenSymbol = result;
+                resolve(tokenSymbol);
+            });        
+        }
+        catch(e){
+          console.error(e);
+          const error = 'Token with this Address doesnt exist.\n Please make sure you are on the right network and token address exists';
+          reject({message: error});
+        }
+    })
+  }
+
+export function getArrayLimitPromise(param){
+    return new Promise(function (resolve, reject) {
+        try {
+            const web3 = param.web3Info.web3;
+            const multisender = new web3.eth.Contract(StormMultiSenderABI, param.proxyMultiSenderAddress);
+            let arrayLimit;
+            multisender.methods.arrayLimit().call().then(function (result) {
+                arrayLimit = result;
+                resolve(arrayLimit);
+            });              
+          }
+          catch(e){
+            console.error('GetArrayLimit', e);
+            const error = 'GetArrayLimit';
             reject({message: error});
           }
     })

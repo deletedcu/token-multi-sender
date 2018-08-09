@@ -2,10 +2,11 @@
  * Gets the repositories of the user from Github
  */
 import Web3Utils from 'web3-utils';
-import { call, put, select, takeLatest, take } from 'redux-saga/effects';
+import { call, put, select, takeLatest, take, all } from 'redux-saga/effects';
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
 import getGasPricePromise from './getGasPricePromise';
-import { getDecimalsPromise, getBalancePromise, getEthBalancePromise } from './getTokenInfoPromise';
+import { getDecimalsPromise, getBalancePromise, getEthBalancePromise, getAllowancePromise, 
+  getCurrentFeePromise, getTokenSymbolPromise, getArrayLimitPromise } from './getTokenInfoPromise';
 import { 
   LOAD_REPOS,
   LOAD_NETWORK,
@@ -92,6 +93,10 @@ export function* loadTokenInfoSaga() {
       tokenDecimals: undefined,
       defAccTokenBalance: undefined,
       defAccEthBalance: undefined,
+      allowance: undefined,
+      currentFee: undefined,
+      tokenSymbol: undefined,
+      arrayLimit: undefined,
     }
     const currentfinalWeb3Info = yield select(makeSelectNetwork());
     // console.log('BEFORE', tokenInfo);
@@ -103,7 +108,8 @@ export function* loadTokenInfoSaga() {
       const param = {
         web3Info: currentfinalWeb3Info,
         address: tokenInfo.tokenAddress,
-        decimals: null,       
+        decimals: null, 
+        proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f'     
       }
       const tokenDecimals = yield call(getDecimalsPromise, param);  
       tokenInfo.tokenDecimals = tokenDecimals; 
@@ -114,11 +120,19 @@ export function* loadTokenInfoSaga() {
 
       const defAccEthBalance = yield call(getEthBalancePromise, param);
       tokenInfo.defAccEthBalance = defAccEthBalance;
-      // await this.getAllowance()
-      // await this.getCurrentFee()
-      // this.getTokenSymbol(tokenAddress)
-      // this.getEthBalance()
-      // this.getArrayLimit()
+
+      const allowance = yield call(getAllowancePromise, param);
+      tokenInfo.allowance = allowance;
+
+      const currentFee = yield call(getCurrentFeePromise, param);
+      tokenInfo.currentFee = currentFee;
+
+      const tokenSymbol = yield call(getTokenSymbolPromise, param);
+      tokenInfo.tokenSymbol = tokenSymbol;
+
+      const arrayLimit = yield call(getArrayLimitPromise, param);
+      tokenInfo.arrayLimit = arrayLimit;
+
     } else {
       // this.tokenAddress = tokenAddress;
       // await this.getCurrentFee()
