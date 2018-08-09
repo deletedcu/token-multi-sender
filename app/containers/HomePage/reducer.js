@@ -29,7 +29,8 @@ import {
   LOAD_TOKEN_INFO,
   LOAD_TOKEN_INFO_SUCCESS,
   LOAD_TOKEN_INFO_ERROR,
-  UPDATE_TOKEN_INFO,
+
+  UPDATE_TOKEN_ADDRESS,
 
  } from './constants';
 import { fail } from 'assert';
@@ -49,7 +50,7 @@ const initialState = fromJS({
   loadingTokenInfo: null,
   loadingTokenInfoError: null,
   tokenInfo: null,
-
+  tokenAddress: '0x000000000000000000000000000000000000bEEF',
 });
 
 function homeReducer(state = initialState, action) {
@@ -68,11 +69,9 @@ function homeReducer(state = initialState, action) {
       return state
         .set('loadingTokenInfo', false)        
         .set('loadingTokenInfoError', action.loadingTokenInfoError);          
-    case UPDATE_TOKEN_INFO:
+    case UPDATE_TOKEN_ADDRESS:
       return  state
-        .set('loadingTokenInfo', false)
-        .set('tokenInfo', action.changedTokenInfo)
-        .set('loadingTokenInfoError', null);
+        .set('tokenAddress', action.updatedTokenAddress);
 
     case LOAD_GASPRICE:
       return state

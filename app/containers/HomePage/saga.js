@@ -1,20 +1,23 @@
 /**
  * Gets the repositories of the user from Github
  */
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import Web3Utils from 'web3-utils';
+import { call, put, select, takeLatest, take } from 'redux-saga/effects';
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
 import getGasPricePromise from './getGasPricePromise';
-import { getDecimalsPromise } from './getTokenInfoPromise';
+import { getDecimalsPromise, getBalancePromise, getEthBalancePromise } from './getTokenInfoPromise';
 import { 
   LOAD_REPOS,
   LOAD_NETWORK,
   LOAD_GASPRICE,
   LOAD_TOKEN_INFO,
+  LOAD_NETWORK_ERROR,
+  LOAD_NETWORK_SUCCESS,
 } from './constants';
 import { 
   reposLoaded,
   repoLoadingError,
-
+  loadNetwork,
   networkLoaded,
   networkLoadingError,
 
@@ -27,7 +30,11 @@ import {
  } from './actions';
 
 import request from 'utils/request';
-import { makeSelectUsername, makeSelectNetwork } from './selectors';
+import { 
+  makeSelectUsername,
+  makeSelectNetwork, 
+  makeSelectTokenAddress, 
+} from './selectors';
 
 /**
  * Github repos request/response handler
@@ -49,7 +56,7 @@ export function* getRepos() {
 /**
  *  This is the saga called when HomePage container mounted. 
  */
-export function* loadNetwork() {
+export function* loadNetworkSaga() {
   try {
     const web3Info = yield call(loadNetworkPromise);
     const finalWeb3Info = yield call(finalizeWeb3InfoPromise, web3Info);
@@ -64,8 +71,9 @@ export function* loadNetwork() {
 /**
  *  This is the saga called when HomePage asks selectable gas price. 
  */
-export function* loadGasPriceInfo() {
+export function* loadGasPriceInfoSaga() {
   try {
+    console.log('Gas Saga_ start');
     const gasPrice = yield call(getGasPricePromise);   
     yield put(gasPriceLoaded(gasPrice));
   } catch (err) {
@@ -77,20 +85,49 @@ export function* loadGasPriceInfo() {
  */
 export function* loadTokenInfoSaga() {
   try {
+    console.log('LoadToken_start');
+    //// tokenInfo structuring
     const tokenInfo = {
+      tokenAddress: yield select(makeSelectTokenAddress()),
       tokenDecimals: undefined,
+      defAccTokenBalance: undefined,
+      defAccEthBalance: undefined,
     }
-
-    const web3Info = yield select(makeSelectNetwork());
-    console.log('sagaWeb3',web3Info);
-    const param = {
-      web3: web3Info.web3,
-      address: '0xc8e2c43bb41d7ca1e7d60ae503ef858aab17f64c'
-    }
-    const tokenDecimals = yield call(getDecimalsPromise, param);  
-    tokenInfo.tokenDecimals = tokenDecimals; 
-
+    const currentfinalWeb3Info = yield select(makeSelectNetwork());
+    // console.log('BEFORE', tokenInfo);
     
+    ////Process the ERC20 token and ETH
+    if(Web3Utils.isAddress(currentfinalWeb3Info.defaultAccount) && tokenInfo.tokenAddress !== "0x000000000000000000000000000000000000bEEF"){
+      //// get Decimals for ERC20 token
+      console.log('ERC20', currentfinalWeb3Info)
+      const param = {
+        web3Info: currentfinalWeb3Info,
+        address: tokenInfo.tokenAddress,
+        decimals: null,       
+      }
+      const tokenDecimals = yield call(getDecimalsPromise, param);  
+      tokenInfo.tokenDecimals = tokenDecimals; 
+      param.decimals = tokenDecimals;
+      
+      const defAccTokenBalance = yield call(getBalancePromise, param);
+      tokenInfo.defAccTokenBalance = defAccTokenBalance;
+
+      const defAccEthBalance = yield call(getEthBalancePromise, param);
+      tokenInfo.defAccEthBalance = defAccEthBalance;
+      // await this.getAllowance()
+      // await this.getCurrentFee()
+      // this.getTokenSymbol(tokenAddress)
+      // this.getEthBalance()
+      // this.getArrayLimit()
+    } else {
+      // this.tokenAddress = tokenAddress;
+      // await this.getCurrentFee()
+      // await this.getEthBalance()
+      // this.getArrayLimit()
+      // this.decimals = 18;
+      // this.defAccTokenBalance = this.ethBalance;
+    }
+    //// Get Decimals in the only ERC20 token    
     yield put(tokenInfoLoaded(tokenInfo));
   } catch (err) {
     yield put(tokenInfoLoadingError(err));
@@ -105,7 +142,7 @@ export default function* githubData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_REPOS, getRepos);
-  yield takeLatest(LOAD_NETWORK, loadNetwork);
-  yield takeLatest(LOAD_GASPRICE, loadGasPriceInfo);
+  yield takeLatest(LOAD_NETWORK, loadNetworkSaga);
+  yield takeLatest(LOAD_GASPRICE, loadGasPriceInfoSaga);
   yield takeLatest(LOAD_TOKEN_INFO, loadTokenInfoSaga);
 }

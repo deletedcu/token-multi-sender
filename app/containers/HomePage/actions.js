@@ -33,7 +33,7 @@ import {
   LOAD_TOKEN_INFO,
   LOAD_TOKEN_INFO_SUCCESS,
   LOAD_TOKEN_INFO_ERROR,
-  UPDATE_TOKEN_INFO,
+  UPDATE_TOKEN_ADDRESS,
 } from './constants';
 
 /**
@@ -227,13 +227,13 @@ export function tokenInfoLoadingError(loadingTokenInfoError) {
 /**
  * Dispatched when the token info was changed by user
  *
- * @param  {object} changedTokenInfo The blockchain token data chosen by user
+ * @param  {object} updatedTokenAddress The blockchain token address chosen by user
  *
- * @return {object}      An action object with a type of UPDATE_TOKEN_INFO 
+ * @return {object}      An action object with a type of UPDATE_TOKEN_ADDRESS 
  */
-export function changeTokenInfo(changedTokenInfo) {
+export function changeTokenInfo(updatedTokenAddress) {
   return {
-    type: UPDATE_TOKEN_INFO,
-    selectedTokenInfo,
+    type: UPDATE_TOKEN_ADDRESS,
+    updatedTokenAddress,
   };
 }

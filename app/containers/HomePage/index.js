@@ -15,6 +15,8 @@ import {
   loadNetwork,
   updateSelectedGasPrice, 
   loadGasPrice,
+  changeTokenInfo,
+  loadTokenInfo,
 } from './actions';
 import { 
   makeSelectUsername,
@@ -53,7 +55,12 @@ const mapDispatchToProps = (dispatch) => ({
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadGasPrice());
   },
+  onLoadTokenInfo: (evt) => {
+    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    dispatch(loadTokenInfo());
+  },
   onUpdateSelectedGasPrice: (evt) => dispatch(updateSelectedGasPrice(evt)),
+  onUpdateSelectTokenAddress: (evt) => dispatch(changeTokenInfo(evt)),
 });
 
 const mapStateToProps = createStructuredSelector({

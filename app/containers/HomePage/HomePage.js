@@ -13,6 +13,8 @@ import TargetAddressesTable from '../../components/TargetAddressesTable';
 import TokenSelect from '../../components/TokenSelect';
 import GasPriceSelect from '../../components/GasPriceSelect';
 import TokenInfoPanel from '../../components/TokenInfoPanel';
+import Button from '@material-ui/core/Button';
+
 import './style.scss';
 
 import targetAddressList from '../../../target_addresses.json';
@@ -22,26 +24,32 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
+    const { onNetworkLoad } = this.props;
+    onNetworkLoad();
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
-    this.props.onNetworkLoad();
+
   }
   
   handleChangeToken = select_state => {
-    console.log('select:', select_state);
-    //this.setState({ [event.target.name]: event.target.value });
+    const { onUpdateSelectTokenAddress, onLoadTokenInfo } = this.props;    
+    onUpdateSelectTokenAddress(select_state);
+    onLoadTokenInfo();
   };
-  handleChangeGasPrice = select_state => {
-    
-    const {gasPriceInfo} = this.props;
+  handleChangeGasPrice = select_state => {    
+    const {gasPriceInfo, onUpdateSelectedGasPrice, onLoadGasPrice} = this.props; 
+    console.log('current gas', gasPriceInfo.selectedGasPrice);   
     let selectedGasPriceInfo = Object.assign(gasPriceInfo, {selectedGasPrice:select_state});
-    this.props.onUpdateSelectedGasPrice(selectedGasPriceInfo);
-    this.props.onLoadGasPrice();
-
-    console.log('gas price:', select_state, this.props.gasPriceInfo.selectedGasPrice);
-    //this.setState({ [event.target.name]: event.target.value });
+    onUpdateSelectedGasPrice(selectedGasPriceInfo);
+    //onLoadGasPrice();
+    console.log('changed price:', selectedGasPriceInfo, gasPriceInfo.selectedGasPrice);
   };
+
+  handleClickSend = data => {
+
+  };
+
   render() {
     const { 
       loading, error, repos,
@@ -56,6 +64,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
       repos,
     };
     const targetAddressProps = {targetAddressList}
+    console.log('render',web3InfoLoading,gasPriceInfoLoading  )
     return (
       (!web3InfoLoading && !gasPriceInfoLoading) ? (
         <article>
@@ -81,7 +90,13 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
               padding:"8px"}}
             >
               {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}            
-              {gasPriceInfo && <GasPriceSelect handleChangeGasPrice = {this.handleChangeGasPrice} gasPricesArray = {gasPriceInfo.gasPricesArray} />}
+              {gasPriceInfo && <GasPriceSelect 
+                                handleChangeGasPrice = {this.handleChangeGasPrice} 
+                                gasPricesArray = {gasPriceInfo.gasPricesArray} 
+                                />}
+              <Button variant="raised" style={{backgroundColor:'green'}}>
+                Validate
+              </Button>
             </div>
             {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
             <TargetAddressesTable {...targetAddressProps}/>
@@ -127,5 +142,7 @@ HomePage.propTypes = {
   tokenInfoLoading: PropTypes.bool,
   tokenInfoLoadingError: PropTypes.object,
   tokenInfo: PropTypes.object,
+  onUpdateSelectTokenAddress: PropTypes.func,
+  onLoadTokenInfo: PropTypes.func,
 
 };

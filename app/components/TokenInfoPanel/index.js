@@ -23,7 +23,11 @@ function PaperSheet(props) {
         </Typography>
         {tokenInfo && 
         (<Typography component="p">
-          {`Decimals: ${tokenInfo.tokenDecimals}`}
+          {
+            ` Decimals: ${tokenInfo.tokenDecimals} 
+              Balance: ${tokenInfo.defAccTokenBalance} 
+              ETH: ${tokenInfo.defAccEthBalance}
+          `}
         </Typography>)
         }
         {tokenInfoLoadingError && 

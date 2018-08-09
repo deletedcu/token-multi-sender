@@ -24,7 +24,9 @@ class SimpleSelect extends React.Component {
   state = {
     token: this.props.userTokens[0].value
   };
-
+//   componentDidMount() {
+//     this.props.handleChangeToken(this.state.token);
+//   }
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     this.props.handleChangeToken(event.target.value);
