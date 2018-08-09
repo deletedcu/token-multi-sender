@@ -27,7 +27,13 @@ import {
 
   LOAD_GASPRICE,
   LOAD_GASPRICE_SUCCESS,
-  LOAD_GASPRICE_ERROR
+  LOAD_GASPRICE_ERROR,
+  UPDATE_SELECTED_GAS_PRICE,
+
+  LOAD_TOKEN_INFO,
+  LOAD_TOKEN_INFO_SUCCESS,
+  LOAD_TOKEN_INFO_ERROR,
+  UPDATE_TOKEN_INFO,
 } from './constants';
 
 /**
@@ -124,7 +130,7 @@ export function networkLoadingError(loadingNetworkError) {
   };
 }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   GAS PRICE LOAD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   GAS PRICE LOAD AND UPDATE  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * Load the Gas price, this action starts the request saga
  *
@@ -139,9 +145,9 @@ export function loadGasPrice() {
 /**
  * Dispatched when the gas price was obtained successfully
  *
- * @param  {object} gasPrice The blockchain network data
+ * @param  {object} gasPrice The blockchain gas data
  *
- * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
+ * @return {object}      An action object with a type of LOAD_GASPRICE_SUCCESS
  */
 export function gasPriceLoaded(gasPrice) {
   return {
@@ -151,15 +157,83 @@ export function gasPriceLoaded(gasPrice) {
 }
 
 /**
- * Dispatched when loading the repositories fails
+ * Dispatched when loading the gas price fails
  *
  * @param  {object} loadingGaspriceError The error
  *
- * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
+ * @return {object}       An action object with a type of LOAD_GASPRICE_ERROR
  */
 export function gasPriceLoadingError(loadingGaspriceError) {
   return {
     type: LOAD_GASPRICE_ERROR,
     loadingGaspriceError,
+  };
+}
+
+/**
+ * Dispatched when the gas price was changed by user
+ *
+ * @param  {object} selectedGasPrice The blockchain gas price selected by user
+ *
+ * @return {object}      An action object with a type of UPDATE_SELECTED_GAS_PRICE
+ */
+export function updateSelectedGasPrice(selectedGasPrice) {
+  return {
+    type: UPDATE_SELECTED_GAS_PRICE,
+    selectedGasPrice,
+  };
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   TOKEN RELATED INFO LOAD AND UPDATE  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load the Token Info, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_TOKEN_INFO
+ */
+export function loadTokenInfo() {
+  return {
+    type: LOAD_TOKEN_INFO,
+  };
+}
+
+/**
+ * Dispatched when the token relation info was obtained successfully
+ *
+ * @param  {object} tokenInfo The blockchain token data
+ *
+ * @return {object}      An action object with a type of LOAD_TOKEN_INFO_SUCCESS 
+ */
+export function tokenInfoLoaded(tokenInfo) {
+  return {
+    type: LOAD_TOKEN_INFO_SUCCESS,
+    tokenInfo,
+  };
+}
+
+/**
+ * Dispatched when loading the token info fails
+ *
+ * @param  {object} loadingTokenInfoError The error
+ *
+ * @return {object}       An action object with a type of LOAD_TOKEN_INFO_ERROR passing the error
+ */
+export function tokenInfoLoadingError(loadingTokenInfoError) {
+  return {
+    type: LOAD_TOKEN_INFO_ERROR,
+    loadingTokenInfoError,
+  };
+}
+
+/**
+ * Dispatched when the token info was changed by user
+ *
+ * @param  {object} changedTokenInfo The blockchain token data chosen by user
+ *
+ * @return {object}      An action object with a type of UPDATE_TOKEN_INFO 
+ */
+export function changeTokenInfo(changedTokenInfo) {
+  return {
+    type: UPDATE_TOKEN_INFO,
+    selectedTokenInfo,
   };
 }

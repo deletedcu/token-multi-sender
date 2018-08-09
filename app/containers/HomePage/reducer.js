@@ -23,7 +23,14 @@ import {
 
   LOAD_GASPRICE,
   LOAD_GASPRICE_SUCCESS,
-  LOAD_GASPRICE_ERROR  
+  LOAD_GASPRICE_ERROR,
+  UPDATE_SELECTED_GAS_PRICE, 
+  
+  LOAD_TOKEN_INFO,
+  LOAD_TOKEN_INFO_SUCCESS,
+  LOAD_TOKEN_INFO_ERROR,
+  UPDATE_TOKEN_INFO,
+
  } from './constants';
 import { fail } from 'assert';
 
@@ -39,14 +46,38 @@ const initialState = fromJS({
   loadingGaspriceError: null,
   gasPrice: null,
 
+  loadingTokenInfo: null,
+  loadingTokenInfoError: null,
+  tokenInfo: null,
+
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+
+    case LOAD_TOKEN_INFO:
+      return state
+        .set('loadingTokenInfo', true)
+        .set('loadingTokenInfoError', null);
+    case LOAD_TOKEN_INFO_SUCCESS:
+      return state
+        .set('loadingTokenInfo', false)
+        .set('tokenInfo', action.tokenInfo)
+        .set('loadingTokenInfoError', null); 
+    case LOAD_TOKEN_INFO_ERROR:
+      return state
+        .set('loadingTokenInfo', false)        
+        .set('loadingTokenInfoError', action.loadingTokenInfoError);          
+    case UPDATE_TOKEN_INFO:
+      return  state
+        .set('loadingTokenInfo', false)
+        .set('tokenInfo', action.changedTokenInfo)
+        .set('loadingTokenInfoError', null);
+
     case LOAD_GASPRICE:
-    return state
-      .set('loadingGasPrice', true)
-      .set('loadingGaspriceError', null);
+      return state
+        .set('loadingGasPrice', true)
+        .set('loadingGaspriceError', null);
     case LOAD_GASPRICE_SUCCESS:
       return state
         .set('loadingGasPrice', false)
@@ -56,11 +87,16 @@ function homeReducer(state = initialState, action) {
       return state
         .set('loadingGasPrice', false)        
         .set('loadingGaspriceError', action.loadingGaspriceError);          
+    case UPDATE_SELECTED_GAS_PRICE:
+      return  state
+        .set('gasPrice', action.selectedGasPrice)
+        .set('loadingGaspriceError', null);
 
     case LOAD_NETWORK:
       return state
         .set('loadingNetwork', true)
-        .set('loadingNetworkError', null);
+        .set('loadingGasPrice', false)
+        .set('loadingNetworkError', null)
     case LOAD_NETWORK_SUCCESS:
       return state
         .set('loadingNetwork', false)
@@ -70,6 +106,7 @@ function homeReducer(state = initialState, action) {
       return state
         .set('loadingNetwork', false)        
         .set('loadingNetworkError', action.loadingNetworkError);          
+    
     case LOAD_REPOS:
       return state
         .set('loading', true)

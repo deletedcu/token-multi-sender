@@ -71,6 +71,23 @@ const makeSelectGasPrice = () => createSelector(
   (homeState) => homeState.get('gasPrice')
 );
 
+///////// Token Info Load ///////
+
+const makeSelectTokenInfoLoading = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingTokenInfo')
+);
+
+const makeSelectLoadingTokenInfoError = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingTokenInfoError')
+);
+ 
+const makeSelectTokenInfo = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('tokenInfo')
+);
+
 export {
   selectHome,
   makeSelectUsername,
@@ -86,4 +103,8 @@ export {
   makeSelectGasPriceLoading,
   makeSelectLoadingGasPriceError,
   makeSelectGasPrice,
+
+  makeSelectTokenInfoLoading,
+  makeSelectLoadingTokenInfoError,
+  makeSelectTokenInfo,
 };

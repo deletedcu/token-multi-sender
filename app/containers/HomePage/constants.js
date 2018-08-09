@@ -9,13 +9,19 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const LOAD_NETWORK = 'app/Header/LOAD_NETWORK';
-export const LOAD_NETWORK_SUCCESS = 'app/Header/LOAD_NETWORK_SUCCESS';
-export const LOAD_NETWORK_ERROR = 'app/Header/LOAD_NETWORK_ERROR';
+export const LOAD_NETWORK = 'app/HomePage/LOAD_NETWORK';
+export const LOAD_NETWORK_SUCCESS = 'app/HomePage/LOAD_NETWORK_SUCCESS';
+export const LOAD_NETWORK_ERROR = 'app/HomePage/LOAD_NETWORK_ERROR';
 
-export const LOAD_GASPRICE = 'app/Header/GASPRICE';
-export const LOAD_GASPRICE_SUCCESS = 'app/Header/GASPRICE_SUCCESS';
-export const LOAD_GASPRICE_ERROR = 'app/Header/GASPRICE_ERROR';
+export const LOAD_GASPRICE = 'app/HomePage/GASPRICE';
+export const LOAD_GASPRICE_SUCCESS = 'app/HomePage/GASPRICE_SUCCESS';
+export const LOAD_GASPRICE_ERROR = 'app/HomePage/GASPRICE_ERROR';
+export const UPDATE_SELECTED_GAS_PRICE = 'app/HomePage/UPDATE_SELECTED_GAS_PRICE';
+
+export const LOAD_TOKEN_INFO = 'app/HomePage/LOAD_TOKEN_INFO';
+export const LOAD_TOKEN_INFO_SUCCESS = 'app/HomePage/LOAD_TOKEN_INFO_SUCCESS';
+export const LOAD_TOKEN_INFO_ERROR = 'app/HomePage/LOAD_TOKEN_INFO_ERROR';
+export const UPDATE_TOKEN_INFO = 'app/HomePage/UPDATE_TOKEN_INFO';
 
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
 export const LOAD_REPOS = 'boilerplate/Home/LOAD_REPOS';

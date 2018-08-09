@@ -9,7 +9,13 @@ import injectSaga from 'utils/injectSaga';
 //   makeSelectError
 // } from 'containers/App/selectors';
 // import { loadRepos } from '../App/actions';
-import { changeUsername, loadRepos, loadNetwork } from './actions';
+import { 
+  changeUsername,
+  loadRepos,
+  loadNetwork,
+  updateSelectedGasPrice, 
+  loadGasPrice,
+} from './actions';
 import { 
   makeSelectUsername,
   makeSelectRepos,
@@ -23,6 +29,11 @@ import {
   makeSelectGasPrice,
   makeSelectGasPriceLoading,
   makeSelectLoadingGasPriceError,
+
+  makeSelectTokenInfoLoading,
+  makeSelectLoadingTokenInfoError,
+  makeSelectTokenInfo,
+
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -38,6 +49,11 @@ const mapDispatchToProps = (dispatch) => ({
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadNetwork());
   },
+  onLoadGasPrice: (evt) => {
+    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    dispatch(loadGasPrice());
+  },
+  onUpdateSelectedGasPrice: (evt) => dispatch(updateSelectedGasPrice(evt)),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -49,6 +65,10 @@ const mapStateToProps = createStructuredSelector({
   gasPriceInfoLoading: makeSelectGasPriceLoading(),
   gasPriceInfoLoadingError: makeSelectLoadingGasPriceError(),
   
+  tokenInfoLoading: makeSelectTokenInfoLoading(),
+  tokenInfoLoadingError: makeSelectLoadingTokenInfoError(),
+  tokenInfo: makeSelectTokenInfo(),
+
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
   loading: makeSelectLoading(),

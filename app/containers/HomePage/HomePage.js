@@ -12,6 +12,7 @@ import ReposList from 'components/ReposList';
 import TargetAddressesTable from '../../components/TargetAddressesTable';
 import TokenSelect from '../../components/TokenSelect';
 import GasPriceSelect from '../../components/GasPriceSelect';
+import TokenInfoPanel from '../../components/TokenInfoPanel';
 import './style.scss';
 
 import targetAddressList from '../../../target_addresses.json';
@@ -32,7 +33,13 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     //this.setState({ [event.target.name]: event.target.value });
   };
   handleChangeGasPrice = select_state => {
-    console.log('gas price:', select_state);
+    
+    const {gasPriceInfo} = this.props;
+    let selectedGasPriceInfo = Object.assign(gasPriceInfo, {selectedGasPrice:select_state});
+    this.props.onUpdateSelectedGasPrice(selectedGasPriceInfo);
+    this.props.onLoadGasPrice();
+
+    console.log('gas price:', select_state, this.props.gasPriceInfo.selectedGasPrice);
     //this.setState({ [event.target.name]: event.target.value });
   };
   render() {
@@ -40,6 +47,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
       loading, error, repos,
       web3InfoLoading, web3InfoLoadingError, web3Info, 
       gasPriceInfoLoading, gasPriceInfoLoadingError, gasPriceInfo,
+      tokenInfoLoading, tokenInfoLoadingError, tokenInfo,
     } = this.props;
 
     const reposListProps = {
@@ -49,7 +57,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     };
     const targetAddressProps = {targetAddressList}
     return (
-      (!web3InfoLoading || !gasPriceInfoLoading) ? (
+      (!web3InfoLoading && !gasPriceInfoLoading) ? (
         <article>
           <Helmet>
             <title>Token MultiSender</title>
@@ -69,11 +77,13 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
               border:"1px solid blue", 
               justifyContent:"space-around",
               alignItems:"center", 
+              margin: "20px",
               padding:"8px"}}
             >
               {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}            
               {gasPriceInfo && <GasPriceSelect handleChangeGasPrice = {this.handleChangeGasPrice} gasPricesArray = {gasPriceInfo.gasPricesArray} />}
             </div>
+            {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
             <TargetAddressesTable {...targetAddressProps}/>
           </div>
         </article>
@@ -111,5 +121,11 @@ HomePage.propTypes = {
   gasPriceInfo: PropTypes.object,
   gasPriceInfoLoading : PropTypes.bool,
   gasPriceInfoLoadingError: PropTypes.object,
+  onUpdateSelectedGasPrice: PropTypes.func,
+  onLoadGasPrice: PropTypes.func,
+
+  tokenInfoLoading: PropTypes.bool,
+  tokenInfoLoadingError: PropTypes.object,
+  tokenInfo: PropTypes.object,
 
 };

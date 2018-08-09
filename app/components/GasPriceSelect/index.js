@@ -47,7 +47,7 @@ class SimpleSelect extends React.Component {
           >
             {gasPricesArray.map(n => {
             return (
-                <MenuItem key={n.value} value={n.value}>{`${n.label}`}</MenuItem>
+                <MenuItem key={n.label} value={n.value}>{`${n.label}`}</MenuItem>
             )})}
           </Select>
         </FormControl>
