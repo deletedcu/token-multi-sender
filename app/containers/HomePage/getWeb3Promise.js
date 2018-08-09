@@ -98,8 +98,9 @@ export function loadNetworkPromise() {
         defaultAccount: null,
         userTokens: null,
         netIdName: null,
+        explorerUrl: null,
       }
-      const {web3Instance, defaultAccount, trustApiName, netIdName } = web3Config;
+      const {web3Instance, defaultAccount, trustApiName, netIdName, explorerUrl } = web3Config;
       window.fetch(`https://${trustApiName}.trustwalletapp.com/tokens?address=${defaultAccount}`).then((res) => {
         return res.json()
       }).then((res) => {
@@ -116,7 +117,8 @@ export function loadNetworkPromise() {
         finalWeb3Info.userTokens = tokens;
         finalWeb3Info.defaultAccount = defaultAccount;
         finalWeb3Info.web3 = new Web3(web3Instance.currentProvider); 
-        finalWeb3Info.netIdName = netIdName;   
+        finalWeb3Info.netIdName = netIdName;
+        finalWeb3Info.explorerUrl = explorerUrl;   
         resolve(finalWeb3Info);    
       }).catch((e) => {
         // this.loading = false;

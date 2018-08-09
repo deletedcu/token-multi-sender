@@ -50,7 +50,7 @@ function homeReducer(state = initialState, action) {
     case LOAD_GASPRICE_SUCCESS:
       return state
         .set('loadingGasPrice', false)
-        .set('networkInfo', action.gasPrice)
+        .set('gasPrice', action.gasPrice)
         .set('loadingGaspriceError', null); 
     case LOAD_GASPRICE_ERROR:
       return state

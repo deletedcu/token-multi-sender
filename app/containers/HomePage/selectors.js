@@ -54,6 +54,22 @@ const makeSelectNetwork = () => createSelector(
   (homeState) => homeState.get('networkInfo')
 );
 
+///////// GasPrice Load ///////
+
+const makeSelectGasPriceLoading = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingGasPrice')
+);
+
+const makeSelectLoadingGasPriceError = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingGaspriceError')
+);
+ 
+const makeSelectGasPrice = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('gasPrice')
+);
 
 export {
   selectHome,
@@ -65,5 +81,9 @@ export {
   
   makeSelectNetworkLoading,
   makeSelectLoadingNetworkError,
-  makeSelectNetwork
+  makeSelectNetwork,
+
+  makeSelectGasPriceLoading,
+  makeSelectLoadingGasPriceError,
+  makeSelectGasPrice,
 };

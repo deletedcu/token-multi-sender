@@ -3,8 +3,13 @@
  */
 import Web3 from 'web3'
 import Web3Utils from 'web3-utils';
+import ERC20ABI from '../../abis/ERC20ABI.json'
+import StormMultiSenderABI from '../../abis/StormMultisender.json'
+
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
+import getGasPricePromise from './getGasPricePromise';
+
 import { 
   LOAD_REPOS, 
 
@@ -22,11 +27,16 @@ import {
 
   gasPriceLoaded,
   gasPriceLoadingError,
+  loadGasPrice,
  } from './actions';
 
 import request from 'utils/request';
 import { makeSelectUsername } from './selectors';
 
+const BN = require('bignumber.js');
+function add(a, b) {
+  return new BN(a).plus(new BN(b));
+}
 
 /**
  * Github repos request/response handler
@@ -53,10 +63,24 @@ export function* loadNetwork() {
     const web3Info = yield call(loadNetworkPromise);
     const finalWeb3Info = yield call(finalizeWeb3InfoPromise, web3Info);
     yield put(networkLoaded(finalWeb3Info));
+    yield put(loadGasPrice()); 
   } catch (err) {
     yield put(networkLoadingError(err));
   }
 }
+
+/**
+ *  This is the saga called when HomePage asks selectable gas price. 
+ */
+export function* loadGasPriceInfo() {
+  try {
+    const gasPrice = yield call(getGasPricePromise);   
+    yield put(gasPriceLoaded(gasPrice));
+  } catch (err) {
+    yield put(gasPriceLoadingError(err));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -67,4 +91,5 @@ export default function* githubData() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_REPOS, getRepos);
   yield takeLatest(LOAD_NETWORK, loadNetwork);
+  yield takeLatest(LOAD_GASPRICE, loadGasPriceInfo);
 }

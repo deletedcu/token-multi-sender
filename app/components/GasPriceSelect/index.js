@@ -22,30 +22,30 @@ const styles = theme => ({
 
 class SimpleSelect extends React.Component {
   state = {
-    token: this.props.userTokens[0].value
+    gas: this.props.gasPricesArray[0].value
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    this.props.handleChangeToken(event.target.value);
+    this.props.handleChangeGasPrice(event.target.value);
   };
 
   render() {
-    const { classes, userTokens } = this.props;
+    const { classes, gasPricesArray } = this.props;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="token-simple">Token</InputLabel>
+          <InputLabel htmlFor="gas-simple">Gas Price</InputLabel>
           <Select
-            value={this.state.token}
+            value={this.state.gas}
             onChange={this.handleChange}
             inputProps={{
-              name: 'token',
-              id: 'token-simple',
+              name: 'gas',
+              id: 'gas-simple',
             }}
           >
-            {userTokens.map(n => {
+            {gasPricesArray.map(n => {
             return (
                 <MenuItem key={n.value} value={n.value}>{`${n.label}`}</MenuItem>
             )})}
@@ -58,9 +58,9 @@ class SimpleSelect extends React.Component {
 
 SimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
-  userTokens: PropTypes.array.isRequired,
-  handleChangeToken: PropTypes.func.isRequired,
+  gasPricesArray: PropTypes.array.isRequired,
+  handleChangeGasPrice: PropTypes.func.isRequired,
 };
 
-const TokenSelect =  withStyles(styles)(SimpleSelect);
-export default TokenSelect;
+const GasPriceSelect =  withStyles(styles)(SimpleSelect);
+export default GasPriceSelect;

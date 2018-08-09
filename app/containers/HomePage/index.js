@@ -20,6 +20,9 @@ import {
   makeSelectNetworkLoading,
   makeSelectLoadingNetworkError,
 
+  makeSelectGasPrice,
+  makeSelectGasPriceLoading,
+  makeSelectLoadingGasPriceError,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -41,6 +44,10 @@ const mapStateToProps = createStructuredSelector({
   web3Info: makeSelectNetwork(),
   web3InfoLoading: makeSelectNetworkLoading(),
   web3InfoLoadingError: makeSelectLoadingNetworkError(),
+  
+  gasPriceInfo: makeSelectGasPrice(),
+  gasPriceInfoLoading: makeSelectGasPriceLoading(),
+  gasPriceInfoLoadingError: makeSelectLoadingGasPriceError(),
   
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
