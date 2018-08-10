@@ -49,7 +49,7 @@ export function getBalancePromise(param) {
             
         }
         catch(e){
-            const error = `${this.web3Store.defaultAccount} doesn't have token balance.\n Please make sure you are on the right network and token address exists`;
+            const error = `${param.web3Info.defaultAccount} doesn't have token balance.\n Please make sure you are on the right network and token address exists`;
             console.error('getBalance',e);
             reject({message: error});
         }
@@ -150,5 +150,50 @@ export function getArrayLimitPromise(param){
             const error = 'GetArrayLimit';
             reject({message: error});
           }
+    })
+}
+
+export function parseAddressesPromise(init_param){
+    let param = Object.assign(init_param);
+    param.addresses_to_send = []
+    param.dublicates = []
+    param.totalBalance = 0;
+    param.invalid_addresses = [];
+    param.balances_to_send = [];
+    console.log('Input JSON data:', param.jsonAddresses)
+    return new Promise((resolve, reject) => {
+      
+      param.jsonAddresses.forEach((account) => {
+        const address = Object.keys(account)[0].replace(/\s/g, "");;
+        console.log('address parse:', address);
+        if(!Web3Utils.isAddress(address)){
+          param.invalid_addresses.push(address);
+        } else {
+          let balance = Object.values(account)[0];
+          param.totalBalance = new BN(balance).plus(param.totalBalance).toString(10)
+          balance = multiplier(param.decimals).times(balance);
+          const indexAddr = param.addresses_to_send.indexOf(address);
+          if(indexAddr === -1){
+            param.addresses_to_send.push(address);  
+            param.balances_to_send.push(balance.toString(10))
+          } else {
+            if(param.dublicates.indexOf(address) === -1){
+              param.dublicates.push(address);
+            }
+            param.balances_to_send[indexAddr] = (new BN(param.balances_to_send[indexAddr]).plus(balance)).toString(10)
+          }
+        }
+      })
+      
+      param.jsonAddresses = param.addresses_to_send.map((addr, index) => {
+        let obj = {}
+        obj[addr] = (new BN(param.balances_to_send[index]).div(multiplier(param.decimals))).toString(10)
+        return obj;
+      })
+      
+      if(param.tokenAddress === "0x000000000000000000000000000000000000bEEF") {
+        param.allowance = param.totalBalance
+      }
+      resolve(param)
     })
   }

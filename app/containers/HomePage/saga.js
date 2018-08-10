@@ -6,7 +6,7 @@ import { call, put, select, takeLatest, take, all } from 'redux-saga/effects';
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
 import getGasPricePromise from './getGasPricePromise';
 import { getDecimalsPromise, getBalancePromise, getEthBalancePromise, getAllowancePromise, 
-  getCurrentFeePromise, getTokenSymbolPromise, getArrayLimitPromise } from './getTokenInfoPromise';
+  getCurrentFeePromise, getTokenSymbolPromise, getArrayLimitPromise, parseAddressesPromise } from './getTokenInfoPromise';
 import { 
   LOAD_REPOS,
   LOAD_NETWORK,
@@ -34,7 +34,8 @@ import request from 'utils/request';
 import { 
   makeSelectUsername,
   makeSelectNetwork, 
-  makeSelectTokenAddress, 
+  makeSelectTokenAddress,
+  makeSelectTargetAddresses, 
 } from './selectors';
 
 /**
@@ -88,9 +89,9 @@ export function* loadTokenInfoSaga() {
   try {
     console.log('LoadToken_start');
     //// tokenInfo structuring
-    const tokenInfo = {
+    let tokenInfo = {
       tokenAddress: yield select(makeSelectTokenAddress()),
-      tokenDecimals: undefined,
+      decimals: undefined,
       defAccTokenBalance: undefined,
       defAccEthBalance: undefined,
       allowance: undefined,
@@ -98,7 +99,7 @@ export function* loadTokenInfoSaga() {
       tokenSymbol: undefined,
       arrayLimit: undefined,
       
-      jsonAddresses = [{"0x0": 0.0}],
+      jsonAddresses: yield select(makeSelectTargetAddresses()),
       addresses_to_send: [],
       dublicates: [],
       totalBalance: 0,
@@ -119,7 +120,7 @@ export function* loadTokenInfoSaga() {
         proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f'     
       }
       const tokenDecimals = yield call(getDecimalsPromise, param);  
-      tokenInfo.tokenDecimals = tokenDecimals; 
+      tokenInfo.decimals = tokenDecimals; 
       param.decimals = tokenDecimals;
       
       const defAccTokenBalance = yield call(getBalancePromise, param);
@@ -140,6 +141,9 @@ export function* loadTokenInfoSaga() {
       const arrayLimit = yield call(getArrayLimitPromise, param);
       tokenInfo.arrayLimit = arrayLimit;
 
+      const finalTokenInfo = yield call(parseAddressesPromise, tokenInfo);
+      yield put(tokenInfoLoaded(finalTokenInfo));
+      console.log(finalTokenInfo);
     } else {
       // this.tokenAddress = tokenAddress;
       // await this.getCurrentFee()

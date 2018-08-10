@@ -26,7 +26,7 @@ function PaperSheet(props) {
           {
             ` 
               Token: ${tokenInfo.tokenSymbol}
-              Decimals: ${tokenInfo.tokenDecimals} 
+              Decimals: ${tokenInfo.decimals} 
               Balance: ${tokenInfo.defAccTokenBalance} 
               ETH: ${tokenInfo.defAccEthBalance}
               Allowance: ${tokenInfo.allowance}
