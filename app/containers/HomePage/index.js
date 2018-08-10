@@ -38,6 +38,10 @@ import {
   makeSelectLoadingTokenInfoError,
   makeSelectTokenInfo,
 
+  makeSelectTxInfoLoading,
+  makeSelectLoadingTxInfoError,
+  makeSelectTxInfo,
+
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -82,6 +86,10 @@ const mapStateToProps = createStructuredSelector({
   tokenInfoLoading: makeSelectTokenInfoLoading(),
   tokenInfoLoadingError: makeSelectLoadingTokenInfoError(),
   tokenInfo: makeSelectTokenInfo(),
+
+  txInfoLoading: makeSelectTxInfoLoading(),
+  txInfoLoadingError: makeSelectLoadingTxInfoError(),
+  txInfo: makeSelectTxInfo(),
 
   repos: makeSelectRepos(),
   username: makeSelectUsername(),

@@ -13,6 +13,7 @@ import TargetAddressesTable from '../../components/TargetAddressesTable';
 import TokenSelect from '../../components/TokenSelect';
 import GasPriceSelect from '../../components/GasPriceSelect';
 import TokenInfoPanel from '../../components/TokenInfoPanel';
+import TxInfoPanel from '../../components/TxInfoPanel';
 import Button from '@material-ui/core/Button';
 
 import './style.scss';
@@ -66,6 +67,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
       web3InfoLoading, web3InfoLoadingError, web3Info, 
       gasPriceInfoLoading, gasPriceInfoLoadingError, gasPriceInfo,
       tokenInfoLoading, tokenInfoLoadingError, tokenInfo,
+      txInfoLoading, txInfoLoadingError, txInfo,
     } = this.props;
 
     const reposListProps = {
@@ -110,6 +112,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
             </div>
             {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
             <TargetAddressesTable {...targetAddressProps}/>
+            {txInfo && <TxInfoPanel txInfo = {txInfo} txInfoLoadingError = {txInfoLoadingError} />}
           </div>
         </article>
       ) :
@@ -157,5 +160,7 @@ HomePage.propTypes = {
   onLoadTargetAddresses: PropTypes.func,
 
   onLoadTxInfo: PropTypes.func,
-
+  txInfoLoading: PropTypes.bool,
+  txInfoLoadingError: PropTypes.object,
+  txInfo: PropTypes.object,
 };

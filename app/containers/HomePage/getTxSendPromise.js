@@ -14,7 +14,6 @@ export function multiSendPromise(param) {
         let txInfo = {
             txs: [],
             txHashToIndex: {},
-            approval: ''
         }
         let slice = param.tokenInfo.totalNumberTx; 
         const addPerTx = param.tokenInfo.arrayLimit;
