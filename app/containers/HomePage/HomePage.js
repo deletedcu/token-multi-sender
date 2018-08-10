@@ -25,13 +25,22 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    */
   componentDidMount() {
     const { onNetworkLoad } = this.props;
+    this.loadTargetAddressAmountPair(targetAddressList);
     onNetworkLoad();
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
 
   }
-  
+  loadTargetAddressAmountPair = (data) => {
+    const { onLoadTargetAddresses } = this.props;
+    let new_data = data.map(r => ({
+      [r.wallet] : r.revenue      
+    }))
+    console.log(new_data);
+    onLoadTargetAddresses(new_data);
+  };
+
   handleChangeToken = select_state => {
     const { onUpdateSelectTokenAddress, onLoadTokenInfo } = this.props;    
     onUpdateSelectTokenAddress(select_state);
@@ -145,4 +154,5 @@ HomePage.propTypes = {
   onUpdateSelectTokenAddress: PropTypes.func,
   onLoadTokenInfo: PropTypes.func,
 
+  onLoadTargetAddresses: PropTypes.func,
 };

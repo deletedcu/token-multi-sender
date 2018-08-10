@@ -93,6 +93,10 @@ const makeSelectTokenAddress = () => createSelector(
   (homeState) => homeState.get('tokenAddress')
 );
 
+const makeSelectTargetAddresses = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('targetAddresses')
+);
 
 export {
   selectHome,
@@ -114,4 +118,6 @@ export {
   makeSelectLoadingTokenInfoError,
   makeSelectTokenInfo,
   makeSelectTokenAddress,
+
+  makeSelectTargetAddresses,
 };

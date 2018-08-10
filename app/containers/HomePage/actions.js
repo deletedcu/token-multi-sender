@@ -34,6 +34,8 @@ import {
   LOAD_TOKEN_INFO_SUCCESS,
   LOAD_TOKEN_INFO_ERROR,
   UPDATE_TOKEN_ADDRESS,
+
+  LOAD_TARGET_ADDRESSES
 } from './constants';
 
 /**
@@ -235,5 +237,19 @@ export function changeTokenInfo(updatedTokenAddress) {
   return {
     type: UPDATE_TOKEN_ADDRESS,
     updatedTokenAddress,
+  };
+}
+
+/**
+ * Dispatched when the target addresses by user
+ *
+ * @param  {object} targetAddresses target address JSON chosen by user
+ *
+ * @return {object}      An action object with a type of UPDATE_TOKEN_ADDRESS 
+ */
+export function loadTargetAddresses(targetAddresses) {
+  return {
+    type: LOAD_TARGET_ADDRESSES,
+    targetAddresses,
   };
 }

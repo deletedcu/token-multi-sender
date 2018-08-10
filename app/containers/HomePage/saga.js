@@ -97,6 +97,13 @@ export function* loadTokenInfoSaga() {
       currentFee: undefined,
       tokenSymbol: undefined,
       arrayLimit: undefined,
+      
+      jsonAddresses = [{"0x0": 0.0}],
+      addresses_to_send: [],
+      dublicates: [],
+      totalBalance: 0,
+      invalid_addresses: [],
+      balances_to_send: []
     }
     const currentfinalWeb3Info = yield select(makeSelectNetwork());
     // console.log('BEFORE', tokenInfo);

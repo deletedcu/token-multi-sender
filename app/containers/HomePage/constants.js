@@ -23,6 +23,7 @@ export const LOAD_TOKEN_INFO_SUCCESS = 'app/HomePage/LOAD_TOKEN_INFO_SUCCESS';
 export const LOAD_TOKEN_INFO_ERROR = 'app/HomePage/LOAD_TOKEN_INFO_ERROR';
 
 export const UPDATE_TOKEN_ADDRESS = 'app/HomePage/UPDATE_TOKEN_ADDRESS';
+export const LOAD_TARGET_ADDRESSES = 'app/HomePage/LOAD_TARGET_ADDRESSES';
 
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
 export const LOAD_REPOS = 'boilerplate/Home/LOAD_REPOS';

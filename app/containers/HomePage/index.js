@@ -17,6 +17,7 @@ import {
   loadGasPrice,
   changeTokenInfo,
   loadTokenInfo,
+  loadTargetAddresses,
 } from './actions';
 import { 
   makeSelectUsername,
@@ -61,6 +62,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onUpdateSelectedGasPrice: (evt) => dispatch(updateSelectedGasPrice(evt)),
   onUpdateSelectTokenAddress: (evt) => dispatch(changeTokenInfo(evt)),
+  onLoadTargetAddresses: (evt) => dispatch(loadTargetAddresses(evt)),
 });
 
 const mapStateToProps = createStructuredSelector({

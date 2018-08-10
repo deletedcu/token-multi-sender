@@ -31,7 +31,7 @@ import {
   LOAD_TOKEN_INFO_ERROR,
 
   UPDATE_TOKEN_ADDRESS,
-
+  LOAD_TARGET_ADDRESSES,
  } from './constants';
 import { fail } from 'assert';
 
@@ -51,11 +51,15 @@ const initialState = fromJS({
   loadingTokenInfoError: null,
   tokenInfo: null,
   tokenAddress: '0x000000000000000000000000000000000000bEEF',
+
+  targetAddresses: null,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-
+    case LOAD_TARGET_ADDRESSES:
+      return state
+        .set('targetAddresses', action.targetAddresses);
     case LOAD_TOKEN_INFO:
       return state
         .set('loadingTokenInfo', true)
