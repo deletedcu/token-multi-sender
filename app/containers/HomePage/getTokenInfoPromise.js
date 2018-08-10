@@ -187,7 +187,9 @@ export function parseAddressesPromise(init_param){
       param.totalNumberTx = Math.ceil(param.jsonAddresses.length/param.arrayLimit);
       ////Total cost in Eth
       console.log('makeGas', param.selectedGasPrice);
+                             //Web3Utils.toWei(this.selectedGasPrice.toString(), 'gwei')
       const standardGasPrice = Web3Utils.toWei(param.selectedGasPrice.toString(), 'gwei');
+      param.standardGasPrice = standardGasPrice;
       const currentFeeInWei = Web3Utils.toWei(param.currentFee);
       const tx = new BN(standardGasPrice).times(new BN('5000000'))
       const txFeeMiners = tx.times(new BN(param.totalNumberTx))

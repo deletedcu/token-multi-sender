@@ -55,8 +55,9 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     console.log('changed price:', selectedGasPriceInfo, gasPriceInfo.selectedGasPrice);
   };
 
-  handleClickSend = data => {
-
+  handleClickSend = () => {
+    this.props.onLoadTxInfo();
+    console.log('send button');
   };
 
   render() {
@@ -103,8 +104,8 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
                                 handleChangeGasPrice = {this.handleChangeGasPrice} 
                                 gasPricesArray = {gasPriceInfo.gasPricesArray} 
                                 />}
-              <Button variant="raised" style={{backgroundColor:'green'}}>
-                Validate
+              <Button onClick = {this.handleClickSend} variant="raised" style={{backgroundColor:'green'}}>
+                Send
               </Button>
             </div>
             {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
@@ -153,6 +154,8 @@ HomePage.propTypes = {
   tokenInfo: PropTypes.object,
   onUpdateSelectTokenAddress: PropTypes.func,
   onLoadTokenInfo: PropTypes.func,
-
   onLoadTargetAddresses: PropTypes.func,
+
+  onLoadTxInfo: PropTypes.func,
+
 };

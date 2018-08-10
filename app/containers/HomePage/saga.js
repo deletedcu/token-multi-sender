@@ -3,10 +3,21 @@
  */
 import Web3Utils from 'web3-utils';
 import { call, put, select, takeLatest, take, all } from 'redux-saga/effects';
+
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
 import getGasPricePromise from './getGasPricePromise';
-import { getDecimalsPromise, getBalancePromise, getEthBalancePromise, getAllowancePromise, 
-  getCurrentFeePromise, getTokenSymbolPromise, getArrayLimitPromise, parseAddressesPromise } from './getTokenInfoPromise';
+import { 
+  getDecimalsPromise,
+  getBalancePromise,
+  getEthBalancePromise,
+  getAllowancePromise, 
+  getCurrentFeePromise,
+  getTokenSymbolPromise, 
+  getArrayLimitPromise, 
+  parseAddressesPromise 
+} from './getTokenInfoPromise';
+import { multiSendPromise }  from './getTxSendPromise';
+
 import { 
   LOAD_REPOS,
   LOAD_NETWORK,
@@ -17,6 +28,7 @@ import {
   LOAD_GASPRICE_SUCCESS,
   LOAD_TX_INFO,
 } from './constants';
+
 import { 
   reposLoaded,
   repoLoadingError,
@@ -103,6 +115,7 @@ export function* loadTokenInfoSaga() {
     //// tokenInfo structuring
     let tokenInfo = {
       tokenAddress: yield select(makeSelectTokenAddress()),
+      proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f',
       decimals: undefined,
       defAccTokenBalance: undefined,
       defAccEthBalance: undefined,
@@ -119,6 +132,7 @@ export function* loadTokenInfoSaga() {
       balances_to_send: [],
 
       selectedGasPrice: (yield select(makeSelectGasPrice())).selectedGasPrice,
+      standardGasPrice: undefined,
       totalNumberTx: undefined,
       totalCostInEth: undefined,
     }
@@ -167,14 +181,20 @@ export function* loadTokenInfoSaga() {
 
 /**
  *  This is the saga called when HomePage execute tx send. 
+ *  Must call this after success of tokenInfo saga from UI.
  */
 export function* loadTxInfoSaga() {
   try {
     console.log('Tx Send Saga_ start');
-    const finalTxInfo = yield call(getGasPricePromise);   
+
+    const param = {
+      tokenInfo: yield select(makeSelectTokenInfo()),
+      web3Info: yield select(makeSelectNetwork()),  
+    }
+    const finalTxInfo = yield call(multiSendPromise, param);   
     yield put(txInfoLoaded(finalTxInfo));
   } catch (err) {
-    yield put(gasPriceLoadingError(err));
+    yield put(txInfoLoadingError(err));
   }
 }
 

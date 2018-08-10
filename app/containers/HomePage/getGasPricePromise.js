@@ -24,7 +24,7 @@
             })
             finalData.selectedGasPrice = data.fast;
             finalData.gasPrices = data;
-            //console.log('gasPromise',finalData);
+            console.log('gasPromise',finalData);
             resolve(finalData);
           }).catch((e) => {
             reject({message: e})

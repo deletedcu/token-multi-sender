@@ -18,6 +18,7 @@ import {
   changeTokenInfo,
   loadTokenInfo,
   loadTargetAddresses,
+  loadTxInfo,
 } from './actions';
 import { 
   makeSelectUsername,
@@ -59,6 +60,10 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadTokenInfo: (evt) => {
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadTokenInfo());
+  },
+  onLoadTxInfo: (evt) => {
+    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    dispatch(loadTxInfo());
   },
   onUpdateSelectedGasPrice: (evt) => dispatch(updateSelectedGasPrice(evt)),
   onUpdateSelectTokenAddress: (evt) => dispatch(changeTokenInfo(evt)),
