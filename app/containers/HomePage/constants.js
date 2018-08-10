@@ -22,6 +22,10 @@ export const LOAD_TOKEN_INFO = 'app/HomePage/LOAD_TOKEN_INFO';
 export const LOAD_TOKEN_INFO_SUCCESS = 'app/HomePage/LOAD_TOKEN_INFO_SUCCESS';
 export const LOAD_TOKEN_INFO_ERROR = 'app/HomePage/LOAD_TOKEN_INFO_ERROR';
 
+export const LOAD_TX_INFO = 'app/HomePage/LOAD_TX_INFO';
+export const LOAD_TX_INFO_SUCCESS = 'app/HomePage/LOAD_TX_INFO_SUCCESS';
+export const LOAD_TX_INFO_ERROR = 'app/HomePage/LOAD_TX_INFO_ERROR';
+
 export const UPDATE_TOKEN_ADDRESS = 'app/HomePage/UPDATE_TOKEN_ADDRESS';
 export const LOAD_TARGET_ADDRESSES = 'app/HomePage/LOAD_TARGET_ADDRESSES';
 

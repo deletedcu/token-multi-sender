@@ -30,6 +30,10 @@ import {
   LOAD_TOKEN_INFO_SUCCESS,
   LOAD_TOKEN_INFO_ERROR,
 
+  LOAD_TX_INFO,
+  LOAD_TX_INFO_SUCCESS,
+  LOAD_TX_INFO_ERROR,
+
   UPDATE_TOKEN_ADDRESS,
   LOAD_TARGET_ADDRESSES,
  } from './constants';
@@ -53,10 +57,28 @@ const initialState = fromJS({
   tokenAddress: '0x000000000000000000000000000000000000bEEF',
 
   targetAddresses: null,
+
+  loadingTxInfo: null,
+  loadingTxInfoError: null,
+  txInfo: null,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_TX_INFO:
+      return state
+        .set('loadingTxInfo', true)
+        .set('loadingTxInfoError', null);
+    case LOAD_TX_INFO_SUCCESS:
+      return state
+        .set('loadingTxInfo', false)
+        .set('txInfo', action.txInfo)
+        .set('loadingTxInfoError', null); 
+    case LOAD_TX_INFO_ERROR:
+      return state
+        .set('loadingTxInfo', false)        
+        .set('loadingTxInfoError', action.loadingTxInfoError);      
+
     case LOAD_TARGET_ADDRESSES:
       return state
         .set('targetAddresses', action.targetAddresses);

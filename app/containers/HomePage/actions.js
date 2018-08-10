@@ -33,9 +33,14 @@ import {
   LOAD_TOKEN_INFO,
   LOAD_TOKEN_INFO_SUCCESS,
   LOAD_TOKEN_INFO_ERROR,
-  UPDATE_TOKEN_ADDRESS,
 
-  LOAD_TARGET_ADDRESSES
+  UPDATE_TOKEN_ADDRESS,
+  LOAD_TARGET_ADDRESSES,
+
+  LOAD_TX_INFO,
+  LOAD_TX_INFO_SUCCESS,
+  LOAD_TX_INFO_ERROR,
+
 } from './constants';
 
 /**
@@ -225,7 +230,7 @@ export function tokenInfoLoadingError(loadingTokenInfoError) {
     loadingTokenInfoError,
   };
 }
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   SET TOKEN TO SEND AND TARGET ADDRESSES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /**
  * Dispatched when the token info was changed by user
  *
@@ -251,5 +256,46 @@ export function loadTargetAddresses(targetAddresses) {
   return {
     type: LOAD_TARGET_ADDRESSES,
     targetAddresses,
+  };
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   TX SEND INFO LOAD AND UPDATE  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load the Tx Info, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_TX_INFO
+ */
+export function loadTxInfo() {
+  return {
+    type: LOAD_TX_INFO,
+  };
+}
+
+/**
+ * Dispatched when the tx info was obtained successfully
+ *
+ * @param  {object} txInfo The blockchain tx data
+ *
+ * @return {object}      An action object with a type of LOAD_TX_INFO_SUCCESS 
+ */
+export function txInfoLoaded(txInfo) {
+  return {
+    type: LOAD_TX_INFO_SUCCESS,
+    txInfo,
+  };
+}
+
+/**
+ * Dispatched when loading the tx info fails
+ *
+ * @param  {object} loadingTxInfoError The error
+ *
+ * @return {object}       An action object with a type of LOAD_TX_INFO_ERROR passing the error
+ */
+export function txInfoLoadingError(loadingTxInfoError) {
+  return {
+    type: LOAD_TX_INFO_ERROR,
+    loadingTxInfoError,
   };
 }

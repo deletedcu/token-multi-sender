@@ -98,6 +98,23 @@ const makeSelectTargetAddresses = () => createSelector(
   (homeState) => homeState.get('targetAddresses')
 );
 
+///////// Tx Info Load ///////
+
+const makeSelectTxInfoLoading = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingTxInfo')
+);
+
+const makeSelectLoadingTxInfoError = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('loadingTxInfoError')
+);
+ 
+const makeSelectTxInfo = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('txInfo')
+);
+
 export {
   selectHome,
   makeSelectUsername,
@@ -117,7 +134,11 @@ export {
   makeSelectTokenInfoLoading,
   makeSelectLoadingTokenInfoError,
   makeSelectTokenInfo,
-  makeSelectTokenAddress,
 
+  makeSelectTokenAddress,
   makeSelectTargetAddresses,
+
+  makeSelectTxInfoLoading,
+  makeSelectLoadingTxInfoError,
+  makeSelectTxInfo,
 };

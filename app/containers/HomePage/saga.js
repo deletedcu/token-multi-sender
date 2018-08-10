@@ -15,6 +15,7 @@ import {
   LOAD_NETWORK_ERROR,
   LOAD_NETWORK_SUCCESS,
   LOAD_GASPRICE_SUCCESS,
+  LOAD_TX_INFO,
 } from './constants';
 import { 
   reposLoaded,
@@ -26,9 +27,14 @@ import {
   gasPriceLoaded,
   gasPriceLoadingError,
   loadGasPrice,
+
   loadTokenInfo,
   tokenInfoLoaded,
   tokenInfoLoadingError,
+
+  loadTxInfo,
+  txInfoLoaded,
+  txInfoLoadingError,
  } from './actions';
 
 import request from 'utils/request';
@@ -38,6 +44,7 @@ import {
   makeSelectTokenAddress,
   makeSelectTargetAddresses, 
   makeSelectGasPrice,
+  makeSelectTokenInfo,
 } from './selectors';
 
 /**
@@ -128,26 +135,19 @@ export function* loadTokenInfoSaga() {
       ////ERC20
       const tokenDecimals = yield call(getDecimalsPromise, param);  
       tokenInfo.decimals = tokenDecimals; 
-      param.decimals = tokenDecimals;
-      
+      param.decimals = tokenDecimals;      
       const defAccTokenBalance = yield call(getBalancePromise, param);
       tokenInfo.defAccTokenBalance = defAccTokenBalance;
-
       const defAccEthBalance = yield call(getEthBalancePromise, param);
       tokenInfo.defAccEthBalance = defAccEthBalance;
-
       const allowance = yield call(getAllowancePromise, param);
       tokenInfo.allowance = allowance;
-
       const currentFee = yield call(getCurrentFeePromise, param);
       tokenInfo.currentFee = currentFee;
-
       const tokenSymbol = yield call(getTokenSymbolPromise, param);
       tokenInfo.tokenSymbol = tokenSymbol;
-
       const arrayLimit = yield call(getArrayLimitPromise, param);
       tokenInfo.arrayLimit = arrayLimit;
-
     } else { ///ETH
       tokenInfo.decimals = 18;
       const currentFee = yield call(getCurrentFeePromise, param);
@@ -164,16 +164,27 @@ export function* loadTokenInfoSaga() {
     yield put(tokenInfoLoadingError(err));
   }
 }
+
+/**
+ *  This is the saga called when HomePage execute tx send. 
+ */
+export function* loadTxInfoSaga() {
+  try {
+    console.log('Tx Send Saga_ start');
+    const finalTxInfo = yield call(getGasPricePromise);   
+    yield put(txInfoLoaded(finalTxInfo));
+  } catch (err) {
+    yield put(gasPriceLoadingError(err));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_REPOS, getRepos);
   yield takeLatest(LOAD_NETWORK, loadNetworkSaga);
   yield takeLatest(LOAD_GASPRICE, loadGasPriceInfoSaga);
   yield takeLatest(LOAD_TOKEN_INFO, loadTokenInfoSaga);
+  yield takeLatest(LOAD_TX_INFO, loadTxInfoSaga);
 }
