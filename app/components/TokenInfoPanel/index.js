@@ -21,20 +21,34 @@ function PaperSheet(props) {
         <Typography variant="headline" component="h3">
           Token Related Inforamtion
         </Typography>
-        {tokenInfo && 
-        (<Typography component="p">
-          {
-            ` 
-              Token: ${tokenInfo.tokenSymbol}
-              Decimals: ${tokenInfo.decimals} 
-              Balance: ${tokenInfo.defAccTokenBalance} 
-              ETH: ${tokenInfo.defAccEthBalance}
-              Allowance: ${tokenInfo.allowance}
-              CurrentFee: ${tokenInfo.currentFee}
-              ArrayLimit: ${tokenInfo.arrayLimit}
-          `}
-        </Typography>)
+        {
+          tokenInfo &&
+            (tokenInfo.tokenSymbol ? 
+              (<Typography component="p">
+                {
+                  ` 
+                    Token: ${tokenInfo.tokenSymbol}
+                    Decimals: ${tokenInfo.decimals} 
+                    Balance: ${tokenInfo.defAccTokenBalance} 
+                     
+                    ETH Balance: ${tokenInfo.defAccEthBalance}
+                    Allowance: ${tokenInfo.allowance}
+                    CurrentFee: ${tokenInfo.currentFee}
+                    ArrayLimit: ${tokenInfo.arrayLimit}
+                `}
+              </Typography>) :
+              (<Typography component="p">
+              {
+                `           
+                  ETH Balance: ${tokenInfo.defAccEthBalance}
+                  Allowance: ${tokenInfo.allowance}
+                  CurrentFee: ${tokenInfo.currentFee}
+                  ArrayLimit: ${tokenInfo.arrayLimit}
+              `}
+            </Typography>)
+            ) 
         }
+                
         {tokenInfoLoadingError && 
         (<Typography component="p">
           {tokenInfoLoadingError.message}

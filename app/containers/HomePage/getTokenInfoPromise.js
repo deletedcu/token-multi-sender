@@ -4,17 +4,6 @@ import ERC20ABI from '../../abis/ERC20ABI.json'
 import StormMultiSenderABI from '../../abis/StormMultisender.json'
 import { select } from 'redux-saga/effects';
 const BN = require('bignumber.js');
-function add(a, b) {
-  return new BN(a).plus(new BN(b));
-}
-function multiplier(decimals){
-    return new BN(10).pow(Number(decimals))
-}
-
-import {
-    makeSelectNetwork,
-} from './selectors'
-
 export function getDecimalsPromise(param) {
     return new Promise(function (resolve, reject) {
         try{ 
@@ -194,6 +183,30 @@ export function parseAddressesPromise(init_param){
       if(param.tokenAddress === "0x000000000000000000000000000000000000bEEF") {
         param.allowance = param.totalBalance
       }
+      //// Total tx Numbers
+      param.totalNumberTx = Math.ceil(param.jsonAddresses.length/param.arrayLimit);
+      ////Total cost in Eth
+      console.log('makeGas', param.selectedGasPrice);
+      const standardGasPrice = Web3Utils.toWei(param.selectedGasPrice.toString(), 'gwei');
+      const currentFeeInWei = Web3Utils.toWei(param.currentFee);
+      const tx = new BN(standardGasPrice).times(new BN('5000000'))
+      const txFeeMiners = tx.times(new BN(param.totalNumberTx))
+      const contractFee = new BN(currentFeeInWei).times(param.totalNumberTx);      
+      param.totalCostInEth = Web3Utils.fromWei(txFeeMiners.plus(contractFee).toString(10))
       resolve(param)
     })
   }
+
+//// Other Non Promise Utilities called by external or internal.
+  
+function add(a, b) { ///internal called
+    return new BN(a).plus(new BN(b));
+}
+
+function multiplier(decimals){ ///internal called
+    return new BN(10).pow(Number(decimals))
+}
+
+// function totalBalanceWithDecimals(param) { ///external called by txSend module
+//     return new BN(this.totalBalance).times(this.multiplier).toString(10)
+// }

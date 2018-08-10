@@ -14,6 +14,7 @@ import {
   LOAD_TOKEN_INFO,
   LOAD_NETWORK_ERROR,
   LOAD_NETWORK_SUCCESS,
+  LOAD_GASPRICE_SUCCESS,
 } from './constants';
 import { 
   reposLoaded,
@@ -36,6 +37,7 @@ import {
   makeSelectNetwork, 
   makeSelectTokenAddress,
   makeSelectTargetAddresses, 
+  makeSelectGasPrice,
 } from './selectors';
 
 /**
@@ -64,6 +66,8 @@ export function* loadNetworkSaga() {
     const finalWeb3Info = yield call(finalizeWeb3InfoPromise, web3Info);
     yield put(networkLoaded(finalWeb3Info));
     yield put(loadGasPrice()); 
+    
+    yield take([LOAD_GASPRICE_SUCCESS]);
     yield put(loadTokenInfo());
   } catch (err) {
     yield put(networkLoadingError(err));
@@ -87,6 +91,7 @@ export function* loadGasPriceInfoSaga() {
  */
 export function* loadTokenInfoSaga() {
   try {
+    
     console.log('LoadToken_start');
     //// tokenInfo structuring
     let tokenInfo = {
@@ -104,21 +109,23 @@ export function* loadTokenInfoSaga() {
       dublicates: [],
       totalBalance: 0,
       invalid_addresses: [],
-      balances_to_send: []
+      balances_to_send: [],
+
+      selectedGasPrice: (yield select(makeSelectGasPrice())).selectedGasPrice,
+      totalNumberTx: undefined,
+      totalCostInEth: undefined,
     }
     const currentfinalWeb3Info = yield select(makeSelectNetwork());
     // console.log('BEFORE', tokenInfo);
-    
+    let param = {
+      web3Info: currentfinalWeb3Info,
+      address: tokenInfo.tokenAddress,
+      decimals: null, 
+      proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f'     
+    }
     ////Process the ERC20 token and ETH
     if(Web3Utils.isAddress(currentfinalWeb3Info.defaultAccount) && tokenInfo.tokenAddress !== "0x000000000000000000000000000000000000bEEF"){
-      //// get Decimals for ERC20 token
-      console.log('ERC20', currentfinalWeb3Info)
-      const param = {
-        web3Info: currentfinalWeb3Info,
-        address: tokenInfo.tokenAddress,
-        decimals: null, 
-        proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f'     
-      }
+      ////ERC20
       const tokenDecimals = yield call(getDecimalsPromise, param);  
       tokenInfo.decimals = tokenDecimals; 
       param.decimals = tokenDecimals;
@@ -141,19 +148,18 @@ export function* loadTokenInfoSaga() {
       const arrayLimit = yield call(getArrayLimitPromise, param);
       tokenInfo.arrayLimit = arrayLimit;
 
+    } else { ///ETH
+      tokenInfo.decimals = 18;
+      const currentFee = yield call(getCurrentFeePromise, param);
+      tokenInfo.currentFee = currentFee;
+      const defAccEthBalance = yield call(getEthBalancePromise, param);
+      tokenInfo.defAccEthBalance = defAccEthBalance;
+      const arrayLimit = yield call(getArrayLimitPromise, param);
+      tokenInfo.arrayLimit = arrayLimit;
+    }    
       const finalTokenInfo = yield call(parseAddressesPromise, tokenInfo);
       yield put(tokenInfoLoaded(finalTokenInfo));
-      console.log(finalTokenInfo);
-    } else {
-      // this.tokenAddress = tokenAddress;
-      // await this.getCurrentFee()
-      // await this.getEthBalance()
-      // this.getArrayLimit()
-      // this.decimals = 18;
-      // this.defAccTokenBalance = this.ethBalance;
-    }
-    //// Get Decimals in the only ERC20 token    
-    yield put(tokenInfoLoaded(tokenInfo));
+      console.log('Final Data',finalTokenInfo);
   } catch (err) {
     yield put(tokenInfoLoadingError(err));
   }
