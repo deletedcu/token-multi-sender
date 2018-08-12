@@ -15,7 +15,7 @@ import GasPriceSelect from '../../components/GasPriceSelect';
 import TokenInfoPanel from '../../components/TokenInfoPanel';
 import TxInfoPanel from '../../components/TxInfoPanel';
 import Button from '@material-ui/core/Button';
-
+import { Map } from 'immutable';
 import './style.scss';
 
 import targetAddressList from '../../../target_addresses.json';
@@ -78,6 +78,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     const targetAddressProps = {targetAddressList}
     console.log('render',web3InfoLoading,gasPriceInfoLoading  )
     return (
+      
       (!web3InfoLoading && !gasPriceInfoLoading) ? (
         <article>
           <Helmet>
@@ -162,5 +163,5 @@ HomePage.propTypes = {
   onLoadTxInfo: PropTypes.func,
   txInfoLoading: PropTypes.bool,
   txInfoLoadingError: PropTypes.object,
-  txInfo: PropTypes.object,
+  txInfo: PropTypes.instanceOf(Map),
 };

@@ -9,7 +9,6 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    magin: theme.spacing.unit * 3,
   },
 });
 
@@ -26,10 +25,15 @@ function PaperSheet(props) {
           txInfo && 
               (<Typography component="p">
               {
-                `           
-                  Tx Info: ${JSON.stringify(txInfo.txs[0].name)}
-                  Tx Hash: ${Object.keys(txInfo.txHashToIndex)}
-              `}
+                `TX HASH: ${txInfo.get('hash') }
+                 TX StATUS:  ${txInfo.get('status')}  
+                `
+              }
+              {/* {
+                ` [ Tx Status:  ${txInfo.txs[0].status} ]         
+                  
+                  [ Tx Hash: ${Object.keys(txInfo.txHashToIndex)} ]
+              `} */}
             </Typography>)
         }                
         {txInfoLoadingError && 

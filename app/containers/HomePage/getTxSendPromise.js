@@ -2,18 +2,18 @@ import Web3Utils from 'web3-utils'
 import ERC20ABI from "../../abis/ERC20ABI.json"
 import MultiSenderAbi from "../../abis/StormMultisender.json"
 const BN = require('bignumber.js');
-
+import { stopPollingTxStatus } from './actions';
+import { fromJS } from 'immutable';
 /*  Test data, ArrayLimit = 2
 [{"0x6464183dc7eeb27cc28ea78a33369f2e576f49c7":"0.12"},
 {"0xaab80c40d93618cb8a27662454d606f9a9dc63f0":"0.13"},
-
 {"0x9ea5bec188a33c290db3fe680e9fdb83a9fbf272":"0.14"}]
 */
 export function multiSendPromise(param) {
     return new Promise(function (resolve, reject) {
         let txInfo = {
-            txs: [],
-            txHashToIndex: {},
+            hash: '',
+            status: ''
         }
         let slice = param.tokenInfo.totalNumberTx; 
         const addPerTx = param.tokenInfo.arrayLimit;
@@ -52,64 +52,41 @@ export function multiSendPromise(param) {
             })    
             .on('transactionHash', (hash) => {
               console.log('multisend_txHash',hash)
-              txInfo.txHashToIndex[hash] = txInfo.txs.length
-              txInfo.txs.push({status: 'pending', name: `Sending Batch #${txInfo.txs.length + 1} ${param.tokenInfo.tokenSymbol}\n
-                From ${addresses_to_send[0]} to: ${addresses_to_send[addresses_to_send.length-1]}
-              `, hash})
+              txInfo.hash = hash; 
+              txInfo.status = 'pending';
               resolve(txInfo);
-              console.log('TxResult',txInfo)
-              //this.getTxStatus(hash)
+              console.log('TxResult', hash)
             })
             .on('error', (error) => {
               reject(error);
               console.log(error)
             })
           });
-        //   slice--;
-        //   if (slice > 0) {
-        //     this._multisend({slice, addPerTx});
-        //   } else {              
-        //   }
         } catch(e){
           reject(error);
           console.error(e)
         }
     })
   }
-//////////Implement following logic to saga.js ////////  
-  /*
-export function getTxReceipt(hash){/// Get Transaction but not working for pending 
+export function getTxStatus(param_input) { ///param = txInfo + web3
+    const hash = param_input.txInfo.get('hash');
     return new Promise(function (resolve, reject) {
-        console.log('getTxReceipt')
-        try {
-            const web3 = this.web3Store.web3;
-            const res = await web3.eth.getTransaction(hash);
-            return res;
-        } catch(e) {
-            console.error(e);
-        }
-    })
-}
-
-function getTxStatus(hash) {
-    console.log('GET TX STATUS', hash)
-    setTimeout(() => {
-      const web3 = this.web3Store.web3;
+      const web3 = param_input.web3Info.web3;      
       web3.eth.getTransactionReceipt(hash, (error, res) => {
-        if(res && res.blockNumber){
-          if(res.status === '0x1'){
-            const index = this.txHashToIndex[hash]
-            this.txs[index].status = `mined`
-            console.log('TXS:',JSON.stringify(this.txs))
+          console.log('web3 get tx callback');
+        if(res && res.blockNumber){         
+          if(res.status){
+            const new_param = param_input.txInfo.set('status','mined');
+            resolve(new_param);
+            console.log('Mined', new_param)
           } else {
-            const index = this.txHashToIndex[hash]
-            this.txs[index].status = `error`
-            this.txs[index].name = `Mined but with errors. Perhaps out of gas`
-          }
-        } else {
-          this.getTxStatus(hash)
+            const new_param = param_input.txInfo.set('status','error');
+            resolve(new_param);
+            console.log('Error')
+          }          
         }
+        else if( error) reject(error);
+        else resolve(param_input.txInfo); ///original txInfo
       })
-    }, 3000)
+    })
   }
-  */

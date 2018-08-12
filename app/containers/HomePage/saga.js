@@ -1,8 +1,9 @@
 /**
  * Gets the repositories of the user from Github
  */
+import { fromJS } from 'immutable';
 import Web3Utils from 'web3-utils';
-import { call, put, select, takeLatest, take, all } from 'redux-saga/effects';
+import { call, put, select, takeLatest, take, all, fork, race} from 'redux-saga/effects';
 
 import { loadNetworkPromise, finalizeWeb3InfoPromise } from './getWeb3Promise';
 import getGasPricePromise from './getGasPricePromise';
@@ -16,7 +17,7 @@ import {
   getArrayLimitPromise, 
   parseAddressesPromise 
 } from './getTokenInfoPromise';
-import { multiSendPromise }  from './getTxSendPromise';
+import { multiSendPromise, getTxStatus }  from './getTxSendPromise';
 
 import { 
   LOAD_REPOS,
@@ -27,6 +28,9 @@ import {
   LOAD_NETWORK_SUCCESS,
   LOAD_GASPRICE_SUCCESS,
   LOAD_TX_INFO,
+  LOAD_TX_INFO_SUCCESS,
+  LOAD_TX_INFO_ERROR,
+  STOP_POLL_TX_STATUS
 } from './constants';
 
 import { 
@@ -47,6 +51,7 @@ import {
   loadTxInfo,
   txInfoLoaded,
   txInfoLoadingError,
+  stopPollingTxStatus,
  } from './actions';
 
 import request from 'utils/request';
@@ -57,6 +62,7 @@ import {
   makeSelectTargetAddresses, 
   makeSelectGasPrice,
   makeSelectTokenInfo,
+  makeSelectTxInfo,
 } from './selectors';
 
 /**
@@ -116,12 +122,12 @@ export function* loadTokenInfoSaga() {
     let tokenInfo = {
       tokenAddress: yield select(makeSelectTokenAddress()),
       proxyMultiSenderAddress: process.env.REACT_APP_PROXY_MULTISENDER || '0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f',
-      decimals: undefined,
+      decimals: 18, ///default for eth
       defAccTokenBalance: undefined,
       defAccEthBalance: undefined,
       allowance: undefined,
       currentFee: undefined,
-      tokenSymbol: undefined,
+      tokenSymbol: 'Eth',
       arrayLimit: undefined,
       
       jsonAddresses: yield select(makeSelectTargetAddresses()),
@@ -186,18 +192,54 @@ export function* loadTokenInfoSaga() {
 export function* loadTxInfoSaga() {
   try {
     console.log('Tx Send Saga_ start');
-
     const param = {
       tokenInfo: yield select(makeSelectTokenInfo()),
       web3Info: yield select(makeSelectNetwork()),  
     }
     const finalTxInfo = yield call(multiSendPromise, param);   
-    yield put(txInfoLoaded(finalTxInfo));
+    yield put(txInfoLoaded(fromJS(finalTxInfo)));
   } catch (err) {
     yield put(txInfoLoadingError(err));
   }
 }
+/*****   Polling Tx status *********/
+// Utility function for delay effects
+function delay(millisec) {
+  const promise = new Promise((resolve) => {
+    setTimeout(() => resolve(true), millisec);
+  });
+  return promise;
+}
 
+// Fetch data every X seconds
+function* pollData() {
+  try {
+    console.log('after_delay_pollData_run');
+    const param = {
+      txInfo: yield select(makeSelectTxInfo()),
+      web3Info: yield select(makeSelectNetwork()),  
+    }
+    const updated_txInfo = yield call (getTxStatus, param);
+    console.log('saga_poll', updated_txInfo);
+
+    yield put(txInfoLoaded(updated_txInfo));    
+
+  } catch (error) {
+    console.log('pollData Error');
+    yield put(txInfoLoadingError(error));   
+  }
+}
+
+// Start Polling when first call to check tx status
+function* watchPollData() {
+  yield call(delay, 6000);
+  const updated_txInfo = yield select(makeSelectTxInfo());  
+  if(updated_txInfo.get('status') === 'pending'){
+    console.log('update'); 
+    yield call(pollData);  
+  }
+}
+///////////////////////////////////////
 /**
  * Root saga manages watcher lifecycle
  */
@@ -206,5 +248,7 @@ export default function* githubData() {
   yield takeLatest(LOAD_NETWORK, loadNetworkSaga);
   yield takeLatest(LOAD_GASPRICE, loadGasPriceInfoSaga);
   yield takeLatest(LOAD_TOKEN_INFO, loadTokenInfoSaga);
+
   yield takeLatest(LOAD_TX_INFO, loadTxInfoSaga);
+  yield takeLatest(LOAD_TX_INFO_SUCCESS, watchPollData);
 }

@@ -61,7 +61,7 @@ const initialState = fromJS({
   loadingTxInfo: null,
   loadingTxInfoError: null,
   txInfo: null,
-});
+}); 
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
@@ -72,7 +72,7 @@ function homeReducer(state = initialState, action) {
     case LOAD_TX_INFO_SUCCESS:
       return state
         .set('loadingTxInfo', false)
-        .set('txInfo', action.txInfo)
+        .set('txInfo', action.txInfo) ///This was arrived after converted as Immutable object
         .set('loadingTxInfoError', null); 
     case LOAD_TX_INFO_ERROR:
       return state

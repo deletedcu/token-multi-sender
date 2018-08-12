@@ -40,7 +40,8 @@ import {
   LOAD_TX_INFO,
   LOAD_TX_INFO_SUCCESS,
   LOAD_TX_INFO_ERROR,
-
+  STOP_POLL_TX_STATUS,
+  
 } from './constants';
 
 /**
@@ -297,5 +298,16 @@ export function txInfoLoadingError(loadingTxInfoError) {
   return {
     type: LOAD_TX_INFO_ERROR,
     loadingTxInfoError,
+  };
+}
+
+/**
+ * stop the polling Tx status checck, this action starts the request saga
+ *
+ * @return {object} An action object with a type of STOP_POLL_TX_STATUS
+ */
+export function stopPollingTxStatus() {
+  return {
+    type: STOP_POLL_TX_STATUS,
   };
 }
