@@ -10,6 +10,32 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
+  block: {
+    display: 'flex',
+    flex:1, 
+    justifyContent: 'space-around'
+  },
+  words: {
+    display: 'flex'
+  },
+  title: {
+    color: '#299de7',
+    paddingTop: theme.spacing.unit * 1,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 3,
+  },
+  info: {
+    color: 'blue',
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 1,
+  },
+  field: {
+    color: '#406158',
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 2,
+  }
 });
 
 function PaperSheet(props) {
@@ -17,38 +43,41 @@ function PaperSheet(props) {
 
   return (
     <div>
-      <Paper className={classes.root} elevation={1}>
-        <Typography variant="headline" component="h3">
+      <Paper className={classes.root} elevation={10}>
+        <Typography variant="headline" component="h2" className ={classes.title}>
           Token Related Inforamtion
         </Typography>
         {
-          tokenInfo &&
-            (tokenInfo.tokenSymbol ? 
-              (<Typography component="p">
-                {
-                  ` 
-                    Token: ${tokenInfo.tokenSymbol}
-                    Decimals: ${tokenInfo.decimals} 
-                    Balance: ${tokenInfo.defAccTokenBalance} 
-                     
-                    ETH Balance: ${tokenInfo.defAccEthBalance}
-                    Allowance: ${tokenInfo.allowance}
-                    CurrentFee: ${tokenInfo.currentFee}
-                    ArrayLimit: ${tokenInfo.arrayLimit}
-                `}
-              </Typography>) :
-              (<Typography component="p">
-              {
-                `           
-                  ETH Balance: ${tokenInfo.defAccEthBalance}
-                  Allowance: ${tokenInfo.allowance}
-                  CurrentFee: ${tokenInfo.currentFee}
-                  ArrayLimit: ${tokenInfo.arrayLimit}
-              `}
-            </Typography>)
-            ) 
-        }
-                
+          tokenInfo &&              
+              (
+                <div className ={classes.block}>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Token:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.tokenSymbol}`} </Typography>
+                  </div>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Decimals:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.decimals}`} </Typography>
+                  </div>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Balance:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.defAccTokenBalance || tokenInfo.defAccEthBalance}`} </Typography>   
+                  </div>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Allowance:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.allowance}`} </Typography>   
+                  </div>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Current Fee:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.currentFee}`} </Typography>   
+                  </div>
+                  <div className ={classes.words}>
+                    <Typography variant="headline" component="h3" className ={classes.field}>{'Addresses/Tx:'}</Typography>
+                    <Typography variant="headline" component="h3" className ={classes.info}> {`${tokenInfo.arrayLimit}`} </Typography>   
+                  </div>
+              </div>
+              )
+        }                
         {tokenInfoLoadingError && 
         (<Typography component="p">
           {tokenInfoLoadingError.message}

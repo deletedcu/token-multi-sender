@@ -10,6 +10,12 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
+  info: {
+    color: 'blue'
+  },
+  warning: {
+    color: 'red'
+  }
 });
 
 function PaperSheet(props) {
@@ -23,17 +29,12 @@ function PaperSheet(props) {
         </Typography>
         {
           txInfo && 
-              (<Typography component="p">
+              (<Typography component="h4" className={classes.info}>
               {
                 `TX HASH: ${txInfo.get('hash') }
                  TX StATUS:  ${txInfo.get('status')}  
                 `
               }
-              {/* {
-                ` [ Tx Status:  ${txInfo.txs[0].status} ]         
-                  
-                  [ Tx Hash: ${Object.keys(txInfo.txHashToIndex)} ]
-              `} */}
             </Typography>)
         }                
         {txInfoLoadingError && 

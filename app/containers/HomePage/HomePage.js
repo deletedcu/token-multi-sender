@@ -17,9 +17,42 @@ import TxInfoPanel from '../../components/TxInfoPanel';
 import Button from '@material-ui/core/Button';
 import { Map } from 'immutable';
 import './style.scss';
-
+import Paper from '@material-ui/core/Paper';
 import targetAddressList from '../../../target_addresses.json';
 
+const styles = {
+  title:{
+    display: 'flex',
+    flex:1,
+    justifyContent:'center',
+    color:'#407c25'
+  },
+  subTitle_normal: {
+    color:'blue'
+  }, 
+  subTitle_error: {
+    color: 'red'
+  },
+  notice:{
+    color: '#b44923',
+    fontStyle: 'italic'
+  },
+  error :{
+    color: 'red'
+  },
+  settingPanel: {
+      display: 'flex',
+      flex:1,
+      justifyContent:"space-around",
+      alignItems:"center", 
+      margin: "20px",
+      padding:"8px"
+  },
+  sendButton: {
+    backgroundColor:'#83c6f4',
+    color: 'white'
+  }
+}
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
@@ -82,38 +115,34 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
       (!web3InfoLoading && !gasPriceInfoLoading) ? (
         <article>
           <Helmet>
-            <title>Token MultiSender</title>
+            <title>TOKEN MULTI-SENDER</title>
             <meta name="description" content="Token MultiSender" />
           </Helmet>
           
           <div className="home-page">
             <section className="centered">
-              <h2>{`Token MultiSender ( ${web3Info ? web3Info.netIdName: 'Error'})`} </h2>
-              <h2>{`Current Account  ${web3Info ? web3Info.defaultAccount: 'Error'}`} </h2>
-              <h3><p> Notice: <i>Before Usage, </i> Confirm Metamask Network Type and It was Unlocked.</p></h3>
-              {(web3InfoLoadingError) && (<p>{web3InfoLoadingError.message}</p>) }              
+              <div style={styles.title}><h2>TOKEN MULTI-SENDER</h2><h2 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.netIdName: ' Error'})`} </h2></div>
+              <div style={styles.title}><h3>CURRENT ACCOUNT</h3><h3 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.defaultAccount: ' Error'})`} </h3></div>
+              <h3><p style ={styles.notice}> Make Sure Metamask Network Type and It was Unlocked.</p></h3>
+              {(web3InfoLoadingError) && (<p style ={styles.error}>{web3InfoLoadingError.message}</p>) }              
             </section>
-            <div style={{ 
-              display: 'flex',
-              flex:1, 
-              border:"1px solid blue", 
-              justifyContent:"space-around",
-              alignItems:"center", 
-              margin: "20px",
-              padding:"8px"}}
-            >
-              {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}            
-              {gasPriceInfo && <GasPriceSelect 
-                                handleChangeGasPrice = {this.handleChangeGasPrice} 
-                                gasPricesArray = {gasPriceInfo.gasPricesArray} 
-                                />}
-              <Button onClick = {this.handleClickSend} variant="raised" style={{backgroundColor:'green'}}>
-                Send
-              </Button>
-            </div>
+            <Paper>
+              <div style={styles.settingPanel}>            
+                {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}            
+                {gasPriceInfo && <GasPriceSelect 
+                                  handleChangeGasPrice = {this.handleChangeGasPrice} 
+                                  gasPricesArray = {gasPriceInfo.gasPricesArray} 
+                                  />}
+                <Button onClick = {this.handleClickSend} variant="raised" style={styles.sendButton}>
+                  Send
+                </Button>
+              </div>
+            </Paper>
             {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
             <TargetAddressesTable {...targetAddressProps}/>
-            {txInfo && <TxInfoPanel txInfo = {txInfo} txInfoLoadingError = {txInfoLoadingError} />}
+            <div style={styles.txInfoPanel} >
+              {txInfo && <TxInfoPanel txInfo = {txInfo} txInfoLoadingError = {txInfoLoadingError} />}
+            </div>
           </div>
         </article>
       ) :
