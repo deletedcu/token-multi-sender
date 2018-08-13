@@ -1,5 +1,5 @@
 /**
- * Gets the repositories of the user from Github
+ * Send token to mulitple addresses
  */
 import { fromJS } from 'immutable';
 import Web3Utils from 'web3-utils';
@@ -19,8 +19,7 @@ import {
 } from './getTokenInfoPromise';
 import { multiSendPromise, getTxStatus }  from './getTxSendPromise';
 
-import { 
-  LOAD_REPOS,
+import {   
   LOAD_NETWORK,
   LOAD_GASPRICE,
   LOAD_TOKEN_INFO,
@@ -33,9 +32,7 @@ import {
   STOP_POLL_TX_STATUS
 } from './constants';
 
-import { 
-  reposLoaded,
-  repoLoadingError,
+import {  
   loadNetwork,
   networkLoaded,
   networkLoadingError,
@@ -54,9 +51,8 @@ import {
   stopPollingTxStatus,
  } from './actions';
 
-import request from 'utils/request';
-import { 
-  makeSelectUsername,
+
+import {   
   makeSelectNetwork, 
   makeSelectTokenAddress,
   makeSelectTargetAddresses, 
@@ -65,22 +61,6 @@ import {
   makeSelectTxInfo,
 } from './selectors';
 
-/**
- * Github repos request/response handler
- */
-export function* getRepos() {
-  // Select username from store
-  const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
-
-  try {
-    // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(reposLoaded(repos, username));
-  } catch (err) {
-    yield put(repoLoadingError(err));
-  }
-}
 
 /**
  *  This is the saga called when HomePage container mounted. 
@@ -244,7 +224,6 @@ function* watchPollData() {
  * Root saga manages watcher lifecycle
  */
 export default function* githubData() {
-  yield takeLatest(LOAD_REPOS, getRepos);
   yield takeLatest(LOAD_NETWORK, loadNetworkSaga);
   yield takeLatest(LOAD_GASPRICE, loadGasPriceInfoSaga);
   yield takeLatest(LOAD_TOKEN_INFO, loadTokenInfoSaga);

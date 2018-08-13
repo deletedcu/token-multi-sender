@@ -12,11 +12,6 @@
 import { fromJS } from 'immutable';
 
 import { 
-  CHANGE_USERNAME,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
-
   LOAD_NETWORK,
   LOAD_NETWORK_SUCCESS,
   LOAD_NETWORK_ERROR,
@@ -41,8 +36,6 @@ import { fail } from 'assert';
 
 // The initial state of the App
 const initialState = fromJS({
-  username: '',
-
   loadingNetwork: false,
   loadingNetworkError: null,
   networkInfo: null,
@@ -131,24 +124,6 @@ function homeReducer(state = initialState, action) {
       return state
         .set('loadingNetwork', false)        
         .set('loadingNetworkError', action.loadingNetworkError);          
-    
-    case LOAD_REPOS:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
-      return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
-    case CHANGE_USERNAME:
-      // Delete prefixed '@' from the github username
-      return state.set('username', action.name.replace(/@/gi, ''));
     default:
       return state;
   }

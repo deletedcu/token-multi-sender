@@ -30,9 +30,5 @@ export const  STOP_POLL_TX_STATUS = 'app/HomePage/STOP_POLL_TX_STATUS'
 export const UPDATE_TOKEN_ADDRESS = 'app/HomePage/UPDATE_TOKEN_ADDRESS';
 export const LOAD_TARGET_ADDRESSES = 'app/HomePage/LOAD_TARGET_ADDRESSES';
 
-export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
-export const LOAD_REPOS = 'boilerplate/Home/LOAD_REPOS';
-export const LOAD_REPOS_SUCCESS = 'boilerplate/Home/LOAD_REPOS_SUCCESS';
-export const LOAD_REPOS_ERROR = 'boilerplate/Home/LOAD_REPOS_ERROR';
 export const DEFAULT_LOCALE = 'en';
 

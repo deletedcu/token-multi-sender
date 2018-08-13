@@ -3,15 +3,8 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-// import {
-//   makeSelectRepos,
-//   makeSelectLoading,
-//   makeSelectError
-// } from 'containers/App/selectors';
-// import { loadRepos } from '../App/actions';
+
 import { 
-  changeUsername,
-  loadRepos,
   loadNetwork,
   updateSelectedGasPrice, 
   loadGasPrice,
@@ -21,11 +14,6 @@ import {
   loadTxInfo,
 } from './actions';
 import { 
-  makeSelectUsername,
-  makeSelectRepos,
-  makeSelectLoading,
-  makeSelectError,
-  
   makeSelectNetwork,
   makeSelectNetworkLoading,
   makeSelectLoadingNetworkError,
@@ -48,11 +36,6 @@ import saga from './saga';
 import HomePage from './HomePage';
  
 const mapDispatchToProps = (dispatch) => ({
-  onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-  onSubmitForm: (evt) => {
-    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-    dispatch(loadRepos());
-  },
   onNetworkLoad: (evt) => {
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadNetwork());
@@ -90,11 +73,6 @@ const mapStateToProps = createStructuredSelector({
   txInfoLoading: makeSelectTxInfoLoading(),
   txInfoLoadingError: makeSelectLoadingTxInfoError(),
   txInfo: makeSelectTxInfo(),
-
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
-  loading: makeSelectLoading(),
-  error: makeSelectError()
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
