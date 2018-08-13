@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
   },
   block: {
     display: 'flex',
@@ -35,11 +37,12 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     paddingLeft: theme.spacing.unit * 2,
-  }
+  },
+
 });
 
 function PaperSheet(props) {
-  const { classes, tokenInfo, tokenInfoLoadingError } = props;
+  const { classes, tokenInfo, tokenInfoLoadingError, tokenInfoLoading } = props;
 
   return (
     <div>
@@ -48,7 +51,12 @@ function PaperSheet(props) {
           Token Related Inforamtion          
         </Typography>
         {
-          tokenInfo &&              
+          tokenInfoLoading && (
+            <CircularProgress style = {{ marginLeft:'60px'}}/>
+          )
+        }
+        {
+          !tokenInfoLoading && tokenInfo &&              
               (
                 <div className ={classes.block}>
                   <div className ={classes.words}>
@@ -92,6 +100,7 @@ PaperSheet.propTypes = {
   classes: PropTypes.object.isRequired,
   tokenInfo: PropTypes.object,
   tokenInfoLoadingError: PropTypes.object,
+  tokenInfoLoading: PropTypes.bool
 };
 const TokenInfoPanel = withStyles(styles)(PaperSheet);
 export default TokenInfoPanel;

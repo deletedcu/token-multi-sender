@@ -15,6 +15,7 @@ import GasPriceSelect from '../../components/GasPriceSelect';
 import TokenInfoPanel from '../../components/TokenInfoPanel';
 import TxInfoPanel from '../../components/TxInfoPanel';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Map } from 'immutable';
 import './style.scss';
 import Paper from '@material-ui/core/Paper';
@@ -52,6 +53,23 @@ const styles = {
     backgroundColor:'#698ae8',
     color: 'white',
     fontSize: 28,
+  },
+  fetching_panel: {
+    display: 'flex',
+    flex:1,
+    flexDirection: 'column',
+    justifyContent:'flex-end',///vertical//
+    alignItems:'center', ///horizontal
+  },
+  fetching_alert: {
+    marginTop: '50px',
+    fontSize: 24,
+    color:'#406158'
+  },
+  fetching_advice: {
+    marginTop: '30px',
+    fontSize: 20,
+    color:'#f59644'
   }
 }
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -121,13 +139,13 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
           </Helmet>
           
           <div className="home-page">
-            <section className="centered">
+            <section className="centered">            
               <div style={styles.title}><h1>TOKEN MULTI-SENDER</h1><h1 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.netIdName: ' Error'})`} </h1></div>
               <div style={styles.title}><h3>CURRENT ACCOUNT</h3><h3 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.defaultAccount: ' Error'})`} </h3></div>
               <h3><p style ={styles.notice}> Make Sure Metamask Network Type and It was Unlocked.</p></h3>
               {(web3InfoLoadingError) && (<p style ={styles.error}>{web3InfoLoadingError.message}</p>) }              
             </section>
-            <Paper>
+            <Paper elevation={10} >
               <div style={styles.settingPanel}>            
                 {web3Info && <TokenSelect handleChangeToken = {this.handleChangeToken} userTokens = {web3Info.userTokens} />}            
                 {gasPriceInfo && <GasPriceSelect 
@@ -139,19 +157,19 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
                 </Button>
               </div>
             </Paper>
-            {!tokenInfoLoading && <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoadingError = {tokenInfoLoadingError} />}
+            <TokenInfoPanel tokenInfo = {tokenInfo} tokenInfoLoading = {tokenInfoLoading} tokenInfoLoadingError = {tokenInfoLoadingError} />
+            {txInfo && <TxInfoPanel txInfo = {txInfo} txInfoLoadingError = {txInfoLoadingError} explorerUrl = {web3Info.explorerUrl} />}
             <TargetAddressesTable {...targetAddressProps}/>
-            <div style={styles.txInfoPanel} >
-              {txInfo && <TxInfoPanel txInfo = {txInfo} txInfoLoadingError = {txInfoLoadingError} />}
-            </div>
           </div>
         </article>
       ) :
       (
         <div className="home-page">
-          <section className="centered">
-            <h2>{'Loading...'}</h2>
-          </section>
+          <div style = {styles.fetching_panel}>
+            <p style = {styles.fetching_alert}>{'Fetching Your MetaMask Information and Current Gas Price...'}</p>
+            <CircularProgress />
+            <p style = {styles.fetching_advice}>{'If this takes more than 30 seconds, make sure your internet connection and metamask, then try to reload your page. '}</p>
+          </div>
         </div>
       )
     );

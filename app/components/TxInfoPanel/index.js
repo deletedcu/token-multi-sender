@@ -9,6 +9,7 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
   },
   warning: {
     color: 'red'
@@ -42,11 +43,11 @@ const styles = theme => ({
 });
 
 function PaperSheet(props) {
-  const { classes, txInfo, txInfoLoadingError } = props;
-
+  const { classes, txInfo, txInfoLoadingError, explorerUrl } = props;
+  // console.log('explorerUrl', explorerUrl);
   return (
     <div>
-      <Paper className={classes.root} elevation={1}>
+      <Paper className={classes.root} elevation={10} className ={classes.title}>
         <Typography variant="headline" component="h3">
           Transaction sent
         </Typography>
@@ -56,11 +57,17 @@ function PaperSheet(props) {
               <div className ={classes.block}>
                 <div className ={classes.words}>
                   <Typography variant="headline" component="h3" className ={classes.field}>{'STATUS:'}</Typography>
-                  <Typography variant="headline" component="h3" className ={classes.info}> {`${txInfo.get('status')}`} </Typography>
+                  <Typography variant="headline" component="h3" className ={classes.info}>
+                      {`${txInfo.get('status')}`} 
+                  </Typography>
                 </div>
                 <div className ={classes.words}>
-                  <Typography variant="headline" component="h3" className ={classes.field}>{'TX HASH:'}</Typography>
-                  <Typography variant="headline" component="h3" className ={classes.info}> {`${txInfo.get('hash')}`} </Typography>
+                  <Typography variant="headline" component="h3" className ={classes.field}>{'TX HASH:'}</Typography>                  
+                  <Typography variant="headline" component="h3" className ={classes.info}>
+                    <a target="_blank" href={`${explorerUrl}/tx/${txInfo.get('hash')}`}>
+                      {`${txInfo.get('hash')}`} 
+                    </a>
+                  </Typography>
                 </div>
               </div>
               )
@@ -79,6 +86,7 @@ PaperSheet.propTypes = {
   classes: PropTypes.object.isRequired,
   txInfo: PropTypes.object,
   txInfoLoadingError: PropTypes.object,
+  explorerUrl: PropTypes.string,
 };
 const TxInfoPanel = withStyles(styles)(PaperSheet);
 export default TxInfoPanel;
