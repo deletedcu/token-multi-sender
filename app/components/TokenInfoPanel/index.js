@@ -45,7 +45,7 @@ function PaperSheet(props) {
     <div>
       <Paper className={classes.root} elevation={10}>
         <Typography variant="headline" component="h2" className ={classes.title}>
-          Token Related Inforamtion
+          Token Related Inforamtion          
         </Typography>
         {
           tokenInfo &&              

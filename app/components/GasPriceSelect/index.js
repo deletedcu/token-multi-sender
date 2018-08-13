@@ -18,6 +18,17 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  menuItem: {
+    fontSize: 24
+  },
+  select: {
+    fontSize: 24,
+  },
+  inputLabel: {
+    fontSize: 26,
+    marginBottom: theme.spacing.unit * 2,
+    position: 'unset'
+  }
 });
 
 class SimpleSelect extends React.Component {
@@ -36,8 +47,9 @@ class SimpleSelect extends React.Component {
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="gas-simple">Gas Price</InputLabel>
+          <InputLabel className={classes.inputLabel} htmlFor="gas-simple">Gas Price</InputLabel>
           <Select
+            className={classes.select}
             value={this.state.gas}
             onChange={this.handleChange}
             inputProps={{
@@ -47,7 +59,7 @@ class SimpleSelect extends React.Component {
           >
             {gasPricesArray.map(n => {
             return (
-                <MenuItem key={n.label} value={n.value}>{`${n.label}`}</MenuItem>
+                <MenuItem className={classes.menuItem}  key={n.label} value={n.value}>{`${n.label}`}</MenuItem>
             )})}
           </Select>
         </FormControl>

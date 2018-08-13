@@ -12,12 +12,23 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit * 3,
     minWidth: 120,
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  menuItem: {
+    fontSize: 24
+  },
+  select: {
+    fontSize: 24,
+  },
+  inputLabel: {
+    fontSize: 26,
+    marginBottom: theme.spacing.unit * 2,
+    position: 'unset'
+  }
 });
 
 class SimpleSelect extends React.Component {
@@ -38,8 +49,9 @@ class SimpleSelect extends React.Component {
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="token-simple">Token</InputLabel>
+          <InputLabel className={classes.inputLabel} htmlFor="token-simple">Token</InputLabel>
           <Select
+            className={classes.select}
             value={this.state.token}
             onChange={this.handleChange}
             inputProps={{
@@ -49,7 +61,7 @@ class SimpleSelect extends React.Component {
           >
             {userTokens.map(n => {
             return (
-                <MenuItem key={n.value} value={n.value}>{`${n.label}`}</MenuItem>
+                <MenuItem className={classes.menuItem} key={n.value} value={n.value}>{`${n.label}`}</MenuItem>
             )})}
           </Select>
         </FormControl>

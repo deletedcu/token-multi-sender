@@ -49,8 +49,9 @@ const styles = {
       padding:"8px"
   },
   sendButton: {
-    backgroundColor:'#83c6f4',
-    color: 'white'
+    backgroundColor:'#698ae8',
+    color: 'white',
+    fontSize: 28,
   }
 }
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -121,7 +122,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
           
           <div className="home-page">
             <section className="centered">
-              <div style={styles.title}><h2>TOKEN MULTI-SENDER</h2><h2 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.netIdName: ' Error'})`} </h2></div>
+              <div style={styles.title}><h1>TOKEN MULTI-SENDER</h1><h1 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.netIdName: ' Error'})`} </h1></div>
               <div style={styles.title}><h3>CURRENT ACCOUNT</h3><h3 style={web3Info ? styles.subTitle_normal:styles.subTitle_error}>{` ( ${web3Info ? web3Info.defaultAccount: ' Error'})`} </h3></div>
               <h3><p style ={styles.notice}> Make Sure Metamask Network Type and It was Unlocked.</p></h3>
               {(web3InfoLoadingError) && (<p style ={styles.error}>{web3InfoLoadingError.message}</p>) }              

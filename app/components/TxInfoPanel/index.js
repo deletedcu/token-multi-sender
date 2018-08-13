@@ -10,11 +10,34 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
-  info: {
-    color: 'blue'
-  },
   warning: {
     color: 'red'
+  },
+  block: {
+    display: 'flex',
+    flex:1, 
+    justifyContent: 'space-around'
+  },
+  words: {
+    display: 'flex'
+  },
+  title: {
+    color: '#299de7',
+    paddingTop: theme.spacing.unit * 1,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 3,
+  },
+  info: {
+    color: 'blue',
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 1,
+  },
+  field: {
+    color: '#406158',
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 2,
   }
 });
 
@@ -29,13 +52,18 @@ function PaperSheet(props) {
         </Typography>
         {
           txInfo && 
-              (<Typography component="h4" className={classes.info}>
-              {
-                `TX HASH: ${txInfo.get('hash') }
-                 TX StATUS:  ${txInfo.get('status')}  
-                `
-              }
-            </Typography>)
+            (
+              <div className ={classes.block}>
+                <div className ={classes.words}>
+                  <Typography variant="headline" component="h3" className ={classes.field}>{'STATUS:'}</Typography>
+                  <Typography variant="headline" component="h3" className ={classes.info}> {`${txInfo.get('status')}`} </Typography>
+                </div>
+                <div className ={classes.words}>
+                  <Typography variant="headline" component="h3" className ={classes.field}>{'TX HASH:'}</Typography>
+                  <Typography variant="headline" component="h3" className ={classes.info}> {`${txInfo.get('hash')}`} </Typography>
+                </div>
+              </div>
+              )
         }                
         {txInfoLoadingError && 
         (<Typography component="p">
