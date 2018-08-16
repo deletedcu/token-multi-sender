@@ -1,7 +1,7 @@
 # token-multi-sender
 Send the ETH or ERC20 token to multiple addresses at one time transaction 
 
-[![running-screen](http://prntscr.com/kj6lns)](https://vimeo.com/user30435988/review/285233642/4788ec2e0e)
+[![running-screen](http://prntscr.com/kj6lns)](https://youtu.be/mE2qoiOi7XA)
 
 * Redux-saga version of this awsome repo:
 https://github.com/rstormsf/multisender
