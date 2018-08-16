@@ -1,13 +1,12 @@
 # token-multi-sender
 Send the ETH or ERC20 token to multiple addresses at one time transaction 
-
+Check following video.
 [![running-screen](https://user-images.githubusercontent.com/35254636/44192872-bb287a00-a139-11e8-83ec-0a132a4b0ea5.png)](https://youtu.be/mE2qoiOi7XA)
 
-* Redux-saga version of this awsome repo:
+* Redux-saga version of this awsome repo that written by Mobx:
 https://github.com/rstormsf/multisender
-Above Mentioned repo is written with Mobx.
 
-If you want to embed token multi sender dapp to your redux project, use this repo.
+    If you want to embed token multi sender dapp to your redux project, use this repo.
 
 * design :
 https://material-ui.com/
