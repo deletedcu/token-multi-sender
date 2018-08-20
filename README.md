@@ -1,6 +1,6 @@
 # token-multi-sender
-* Send the ETH or ERC20 token to multiple addresses at one time transaction 
-Check following video.
+* Send the ETH or ERC20 token to multiple addresses at one time transaction. 
+  Check following video.
 
 [![running-screen](https://user-images.githubusercontent.com/35254636/44192872-bb287a00-a139-11e8-83ec-0a132a4b0ea5.png)](https://youtu.be/mE2qoiOi7XA)
 
@@ -12,6 +12,10 @@ https://rstormsf.github.io/multisender/#/
 * design :
 https://material-ui.com/
 
+## Install
+* 1) npm install or yarn install
+* 2) npm start or yarn start
+
 ## Features
 
 * Use MetaMask as wallet.
@@ -22,13 +26,9 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
 
 ## Disclaimer
 
-This is personal project, developer is not responsible for any loss from transactions derived by MultiSender. Some of the underlying JavaScript libraries and Ethereum tools that were used are under active development. The website and smart contract has been thoroughly tested, there is always the possibility something unexpected happens resulting in losses of Ethereum and/or tokens.
+    This is personal project, developer is not responsible for any loss from transactions derived by MultiSender. Some of the underlying JavaScript libraries and Ethereum tools that were used are under active development. The website and smart contract has been thoroughly tested, there is always the possibility something unexpected happens resulting in losses of Ethereum and/or tokens.
 
-Any ERC20 tokens you transfer to the Multisender will be sent out to the addresses that you provided.
-
-The smart contract source code can be audited by anyone in this repository.
-
-I encourage you to assess its security before using the Mutlisender Dapp. 
+    Any ERC20 tokens you transfer to the Multisender will be sent out to the addresses that you provided.
 
 ## Welcome to Pull request, Issue report, Star. 
 
