@@ -14,7 +14,7 @@ https://material-ui.com/
 
 ## Install
 * 1) npm install or yarn install
-* 2) npm start or yarn start
+* 2) npm start 
 
 ## Features
 
@@ -26,7 +26,11 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
 
 ## Disclaimer
 
-    This is personal project, developer is not responsible for any loss from transactions derived by MultiSender. Some of the underlying JavaScript libraries and Ethereum tools that were used are under active development. The website and smart contract has been thoroughly tested, there is always the possibility something unexpected happens resulting in losses of Ethereum and/or tokens.
+    This is personal project, developer is not responsible for any loss from transactions derived by MultiSender. 
+    
+    Some of the underlying JavaScript libraries and Ethereum tools that were used are under active development. 
+    
+    The smart contract has been thoroughly tested, there is always the possibility something unexpected happens resulting in losses of Ethereum and/or tokens.
 
     Any ERC20 tokens you transfer to the Multisender will be sent out to the addresses that you provided.
 
