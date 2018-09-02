@@ -63,17 +63,21 @@ export function getEthBalancePromise(param) {
     })
 }
 
+async function getAllowance(param){
+    const web3 = param.web3Info.web3;
+    const address = param.address;
+    const token = new web3.eth.Contract(ERC20ABI, address);
+    
+    let result = await token.methods.allowance(param.web3Info.defaultAccount, param.proxyMultiSenderAddress).call();
+    console.log('allowance_res1', result);
+    let allowance = new BN(result).div(multiplier(param.decimals)).toString(10);
+    console.log('allowance_res2', allowance);
+    return allowance;
+}
 export function getAllowancePromise(param) {
     return new Promise(function (resolve, reject) {
         try {
-            const web3 = param.web3Info.web3;
-            const address = param.address;
-            const token = new web3.eth.Contract(ERC20ABI, address);
-            let allowance;
-            token.methods.allowance(param.web3Info.defaultAccount, param.proxyMultiSenderAddress).call().then(function (result) {
-                allowance = new BN(result).div(multiplier(param.decimals)).toString(10)
-                resolve(allowance);
-            });        
+            resolve(getAllowance(param))     
           }
           catch(e){
             const error= `Token address doesn't have allowance method.\n Please make sure you are on the right network and token address exists.\n
