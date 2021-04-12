@@ -13,8 +13,8 @@ https://rstormsf.github.io/multisender/#/
 https://material-ui.com/
 
 ## Install
-* 1) npm install or yarn install
-* 2) npm start 
+* `npm install` or `yarn install`
+* `npm start` 
 
 ## Features
 
