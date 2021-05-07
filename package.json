@@ -43,7 +43,7 @@
     "immutable": "3.8.2",
     "invariant": "2.2.4",
     "ip": "1.1.5",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "minimist": "1.2.0",
     "prop-types": "15.6.1",
     "react": "^16.4.0",
