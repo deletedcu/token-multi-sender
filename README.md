@@ -48,6 +48,15 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
 
 ## 🌱 Technologies and Frameworks
 <p>
+    <!-- JavaScript -->
+    <img src="https://img.shields.io/badge/JavaScript-f7df1e?flat=plastic&logo=javascript&logoColor=black" height="32" alt="JavaScript" />
+    &nbsp;
+    <!-- HTML5 -->
+    <img src="https://img.shields.io/badge/HTML5-e34f26?flat=plastic&logo=html5&logoColor=white" height="32" alt="HTML5" />
+    &nbsp;
+    <!-- CSS3 -->
+    <img src="https://img.shields.io/badge/CSS3-1572b6?flat=plastic&logo=css3&logoColor=white" height="32" alt="CSS3" />
+    &nbsp;
     <!-- React -->
     <img src="https://img.shields.io/badge/React-61dafb?flat=plastic&logo=react&logoColor=black" height="32" alt="React" />
     &nbsp;
