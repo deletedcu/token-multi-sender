@@ -70,7 +70,7 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
     <img src="https://img.shields.io/badge/React%20Router-ca4245?flat=plastic&logo=react%20router&logoColor=white" height="32" alt="React Router" />
     &nbsp;
     <!-- Node.js -->
-    <img src="https://img.shields.io/badge/Node.js-339933?flat=plastic&logo=node.js&logoColor=white" height="32" alt="Node.js" />
+    <img src="https://img.shields.io/badge/Node.js-339933?flat=plastic&logo=node-dot-js&logoColor=white" height="32" alt="Node.js" />
     &nbsp;
     <!-- npm -->
     <img src="https://img.shields.io/badge/npm-cb3837?flat=plastic&logo=npm&logoColor=white" height="32" alt="npm" />
