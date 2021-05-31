@@ -84,5 +84,8 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
     <!-- Webpack -->
     <img src="https://img.shields.io/badge/Webpack-8dd6f9?flat=plastic&logo=webpack&logoColor=black" height="32" alt="Webpack" />
     &nbsp;
+    <!-- Docker -->
+    <img src="https://img.shields.io/badge/Docker-2496ed?flat=plastic&logo=docker&logoColor=white" height="32" alt="Docker" />
+    &nbsp;
 </p>
 
