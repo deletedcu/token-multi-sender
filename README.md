@@ -78,6 +78,9 @@ If you send token to 2000 addresses, then tx count become only 10, instead of 20
     <!-- Yarn -->
     <img src="https://img.shields.io/badge/Yarn-2c8ebb?flat=plastic&logo=yarn&logoColor=white" height="32" alt="Yarn" />
     &nbsp;
+    <!-- Bootstrap -->
+    <img src="https://img.shields.io/badge/Bootstrap-7952b3?flat=plastic&logo=bootstrap&logoColor=white" height="32" alt="Bootstrap" />
+    &nbsp;
     <!-- Ethereum -->
     <img src="https://img.shields.io/badge/Ethereum-3c3c3d?flat=plastic&logo=ethereum&logoColor=white" height="32" alt="Ethereum" />
     &nbsp;
